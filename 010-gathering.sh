@@ -78,7 +78,59 @@ function shodan.io() {
   shodan download --limit 200 nginx-sample product:nginx
   shodan parse nging-sample.json.gz
   shodan convert nging-sample.json.gz xlsx
-
 }
 
+function nmap-NSE() {
+  # Nmap Scripting Engine: https://nmap.org/nsedoc
+  nmap -Pn -sV host.com --script dns-brute   # normal
+  nmap -Pn -sA host.com --script dns-brute   # TCP ACK scan - scan sends acknowledgment packets instead of SYN packets, and the firewall does not create logs of ACK - map the type of firewall being used.
+  nmap -Pn -sW host.com --script dns-brute   # Window scan almost like ACK except it shows open and closed ports
+  nmap -Pn -sI host.com zombiehost.com domain.com   # normal
+}
+
+function dirb() {
+  # bruto force open directories wordlist_files
+  dirb https://domain.com
+  # -a: to specify a user agent
+  # -c: to specify a cookie
+  # -H: to enter a custom header
+  # -x: to specify the file extension
+}
+
+function DeepmagicInformationGatheringTool() {
+  # perform email, whois, TCP port scan and subdomain search
+  dmitry -s -e -w -p domain.com
+  #intrace -h hostname.com -p port -s sizeofpacket
+  #intrace -h hostname.com -p 443 -s 4_
+  # similar; b - is the source, Google, Goole CSE,
+  #   Bing, Bing Api, PGP, Linkedln, Twitter, 
+  #   Google Profiles, people123, Jigsaw, Google Plus sources
+  theharvester -d domain/name -l 20 -b all  
+}
+
+function SSL-flaws() {
+  # Hunting for it or misconfigurations.
+  sslscan host.com:port
+}
+
+function whatweb() {
+  whatweb hostname.com
+}
+
+function masscan() {
+  # fastest port scan tool. scan the entire internet, speed of 10 millio packets per second
+  # alternative for nmap
+  masscan 192.168.1.0/24 -p 80,443,23
+}
+
+function WirelessNetworkDetector() {
+  # nice interface
+  kismet
+}
+
+function firewalk_testikgRouters() {
+  apt install firewalk
+  # s - port number we want to test, next to router's IP addres and host's IP address
+  firewalk -S 1-23 -i eth0 192.168.1.1 192.168.10.1
+}
 
