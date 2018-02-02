@@ -1,0 +1,67 @@
+Commands
+  dirb https://domain.com # bruto forse open wordlist 
+  dmitry -s -e -w -p domain.com # scan,email,whois,tcp subdomain search
+  fierce -dns $domain -threads 10 # trase domain
+  firewalk -S 1-23 -i eth0 192.168.1.1 192.168.10.1 # testing routers
+  kismet # wireless network detector
+  masscan 192.168.1.0/24 -p 80,443,23  # scan internet; similar to nmap
+  nmap -Pn -sV host.com --script dns-brute   # normal
+  nmap -Pn -sA host.com --script dns-brute   # TCP ACK scan
+  nmap -Pn -sW host.com --script dns-brute   # Window scan like ACK
+  nmap -Pn -sI host.com zombiehost.com domain.com   # normal, idle
+  shodan convert mongodbdb.json.gz csv
+  shodan convert nging-sample.json.gz xlsx
+  shodan download --limit -1 hacked-sites.json.gz 'title:"hacked by"'
+  shodan download --limit 200 nginx-sample product:nginx
+  shodan download -h
+  shodan download --limit 1000 mongodb.json.gz product:mongodb
+  shodan host 22.22.22.22
+  shodan parse mongodbdb.json.gz
+  shodan host --history -0 info.json.gz 219.29.92.29
+  shodan parse --fields ip_str,port,title hacked-sites.json.gz
+  shodan parse --fields ip_str, hacked-sites.json.gz
+  shodan parse -f location.country_code:US a.json.gz -O ab.json.gz
+  shodan parse ab.json.gz --fields ip_str,port,hosnames,location.country
+  shodan radar
+  shodan scan submit --filename scandata 192.20.20.0/24
+  shodan stats --facets telnet.option --limit 20 port:23
+  shodan stats --facets org,country 'title:"hacked by"'
+  shodan stats "port:23 telnet.option:com_port_option"
+  shodan stats --facets product:100 -O dlink-product.csv product:d-link
+  shodan stats --facets ssl.version country:de has_ssl:true port:8443
+  shodan stats --facets org country:de ssl.version:sslv2
+  shodan stats --facets ssh.fingerprint port:22
+  shodan stats e7:86:c7:22:b3:08:af:c7:11:fb:a5:ff:9a:ae:38:e4
+  shodan search --fields ip_str,port,title 'title:"hacked by"'
+  shodan search port:23 telnet.option:com_port_option
+  shodan search e7:86:c7:22:b3:08:af:c7:11:fb:a5:ff:9a:ae:38:e4
+  sslscan host.com:port # hunting for flags,misconfiguration
+  theharvester -d domain/name -l 20 -b all  # b -sources;list
+  whatweb hostname.com
+
+Network Bandwitch
+  bmon  # similat to nload
+  bwm-ng -o curses2 # -bar graphs
+  cbm
+  collectl -sn -oT -i0.5 # gathers stats, memory, network
+  dstat -nt # vesatile tool, batch style, log, csv
+  ifstat -t -i eth0 0.5 # time; batch style mode
+  netload eth0
+  nload  # online stats
+  tcptrack
+  slurm -s -i eth0 # interface
+  speedometer -r eth0 -t eth0 # graphs
+  sudo iftop -n
+  sudo iptraf
+  sudo nethogs
+  sudo netwatch -e eth0 -nt # between local host and remote hosts
+  sudo pktstat -i eth0 -nt  # active connections, type;
+  sudo trafshow -i eth0 tcp # active conections, type
+  vnstat -l -i eth0   # runs in background service/daemon
+
+Network Connections
+  ss | less  # list all connections
+  ss -tux  # ss -A tcp - filter tcp,udp or unix connections
+
+
+

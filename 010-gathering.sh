@@ -29,6 +29,9 @@ function shodan.io() {
   shodan stats --facets ssl.version country:de has_ssl:true port:8443
   # lets see who's running all the SSLv2
   shodan stats --facets ssl.version.sslv2 country:de
+  shodan stats --facets org country:de ssl.version:sslv2
+  #    Deutsche Telekom AG                55,028
+  #    Host Europe GmbH                   12,111
 
   ##  Hacked by
   shodan search --fields ip_str,port,title 'title:"hacked by"'
@@ -38,6 +41,10 @@ function shodan.io() {
   shodan parse --fields ip_str, hacked-sites.json.gz
 
   shodan scan submit --filename scandata 192.20.20.0/24
+
+  shodan stats --facets product:100 -O dlink-product.csv product:d-link
+  vim dlink-product.csv # D-link DCS-932L webcam httpinterface, 42389
+
 
   ##  IP History
   shodan host 22.22.22.22

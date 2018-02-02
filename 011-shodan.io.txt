@@ -1,0 +1,71 @@
+dogecoin
+bytecoin
+verge     xvg   - utilizes TOR network
+reddcoin  RDD   - Redd-ID - social currenty to general public, you can name your public key, easy to use
+
+Siacoin    SC    - decentralized private cloud (cloud storage on blockchain)    10 levnejsi nez amazon
+SEPA  
+Use your bank account to transfer funds into Coinbase
+Coinbase only accepts SEPA transfers. Please use the reference code below as part of your transfer.
+Reference Number
+CBAEURETFVNSEH
+
+Recipient's IBAN  EE957700771001355096
+
+
+# from je moje platba co jsem udelal pres coinbase na eos
+
+https://etherscan.io/tx/0xcedad3496bde0b9a35cc357bbe265c543c5bea8abf951412e75ac26bbbe51805
+Transaction Information {Pending} 
+This TxHash was found in our secondary node and should be picked up by our primary node in a short while.
+
+TxHash:0xcedad3496bde0b9a35cc357bbe265c543c5bea8abf951412e75ac26bbbe51805 Block Height:(Pending)
+TimeStamp: 00 hr 00 min 53 secs ago 
+From:0x6374348b8330628368693f0baae4952d8c31dba2
+To:0xd0a6e6c54dbc68db5db3a091b171a77407ff7ccf
+Value: 0.08 Ether ($59.01) 
+Gas Limit: 77124 
+Gas Used By Txn: Pending 
+Gas Price: 0.000000021 Ether (21 Gwei) 
+Actual Tx Cost/Fee: Pending 
+Cumulative Gas Used: Pending 
+Nonce: 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+IOTA
+
+smart contract
+EOS next step of blockchain 1.0
+
+blockchain 2.0   smart contract, 
+
+blockchain 3.0   ios  host massive decentralize platform, 
+can internet to web 3.0 
+
+web 3.0 - decentralized internet, the server will query blockchain, 
+
+stemit - social network on blockchain
+
+Dan laymer
+BitCoin
+
+# join blockchain academy pre-sale
+academy.ivanontech.com
+
+o
+
+
+
+

