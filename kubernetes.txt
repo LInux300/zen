@@ -1,0 +1,158 @@
+# Kubernetes CMDs 
+#------------------------------------------------------------------------------
+
+kubectl create -f py.yml
+kubectl create -f namespace.yml
+kubectl delete namespace <Namespace name>
+kubectl describe jobs/py                      # Example2; creating a job
+kubectl describe namespace <Namespace name>
+kubectl get namespace <Namespace name>
+kubectl log Testing_for_Image_pull            # gives me success or failure
+
+
+# Kubernetes Namespace
+#------------------------------------------------------------------------------
+# Example5: namespace
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: elasticsearch
+  namespace: elk
+  labels:
+    com
+
+# Kubernetes Labels & Selectors
+#------------------------------------------------------------------------------
+# Example4: Set-based selecors allow filtering of keys according to 
+            a set of values
+
+apiVersion :v1
+kind: Service
+metadata:
+  name: sp-neo4j-standalone
+spec:
+  ports:
+    - port: 7474
+      name: neo4j
+  type: NodePort
+  selector:
+    app: salesplatform
+    component: neo4j
+
+
+
+# Kubernetes Jobs
+#------------------------------------------------------------------------------
+# Example3 Scheduled Job "ps -eaf": every 30 min; 
+apiVersion: v1
+kind: Job
+metadata:
+  name: py
+spec:
+  schedule: h/30 * * * *
+  template:
+    metadata
+      name: py
+    spec:
+      containers:
+      - name: py
+        image: python
+        args:
+/bin/sh
+-c
+ps -eaf
+        restartPolicy: OnFailure
+
+# Example2: Creating a Job; template name is py; it will never restart itself
+
+apiVersion: v1
+kind: Job
+metadata:
+  name: py
+spec:
+  template:
+    metadata
+        name: py
+    spec:
+      containers:
+      - name: py
+        image: python
+      command: ["python","SUCCESS"]
+      restartPolicy: Never
+
+
+# Kubernetes - Images
+#------------------------------------------------------------------------------
+# Each container in a pod has its Docker image running inside it
+# Example1: Pull image from Docker registry and deploy in to Kubernetes conta
+
+apiVersion: v1
+kind: pod
+metadata:
+  name: Testing_for_Image_pull
+    spec:
+      containers:
+      - name: neo4j-server
+        image: <Name of the Docker Image>
+        imagePullPolicy: Always
+        command: ["echo","SUCCESS"]
+
+
+
+# Kubernetes Setup
+#------------------------------------------------------------------------------
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates
+...
+
+
+# Kubernetes Architecture
+#------------------------------------------------------------------------------
+# Kubernetes Master
+      - etcd          -key value store,can be distributed among multiple nodes
+      - API Server    - act as communicator among different componets of Kub
+      - Scheduler     - regulates the state of cluster and performs a task
+                      - run in nonterminating loop;responsible for collecting 
+                        and sending information to API
+    - Controller Manager - multiple kind of controllers to handle nodes
+    
+# Kubernetes Nodes  (linux machines)
+      - Docker        - running the encapsulated application containers
+      - Kubelet       - responsible for relaying information to and from contrl
+                      - manages pods on node, volumes, secrets
+                      - creating new containers etc
+    - KubernetesProxy - making service available to the external host
+                      - manages networking part for nodes
+
+
+
+
+
+
+
+# Kubernetes App Deployment
+#------------------------------------------------------------------------------
+converting images to containers and then allocating those images to pods in
+the Kubernetes cluster. setting app, deployment of app, replication cont, 
+replica set
+
+# Kubernetes Autoscaling in Cluster
+#------------------------------------------------------------------------------
+Supporte by GCE - Google Cloud Engine
+            GKE - Google Container Engine
+            AWS
+
+
+
+
+
+#------------------------------------------------------------------------------
+
+
+
+
+#------------------------------------------------------------------------------
+
+
+
