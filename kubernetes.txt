@@ -1,13 +1,82 @@
+# Kubernetes Frainwork
+
 # Kubernetes CMDs 
 #------------------------------------------------------------------------------
-
+kubectl apply -f deployment/webapp.yml
 kubectl create -f py.yml
 kubectl create -f namespace.yml
+kubectl create -f deployment/mysql.yml
+kubectl create -f deployment/webapp.yml
+kubectl create -f extensions/certificate.yml
+kubectl create -f jobs/webapp-db-schema-load.yml
+kubectl create -f jobs/webapp-db-schema-seed.yml    # get pass
+kubectl create configmap nginx --from-file configs/lobsters.conf
 kubectl delete namespace <Namespace name>
 kubectl describe jobs/py                      # Example2; creating a job
 kubectl describe namespace <Namespace name>
+kubectl describe svc webapp                   # automaticaly, load balancer
 kubectl get namespace <Namespace name>
+kubectl get pods
+kubectl get svc
+watch kubectl get jobs
+kubectl get secrets
 kubectl log Testing_for_Image_pull            # gives me success or failure
+kubectl logs <container name> -f 
+kubectl svc                                   # service
+
+spec:
+ containers:
+   - name: webapp
+     image: github/version2.0.1
+     env:
+       -
+    command:
+      - "ls -la"
+      - "run.sh"
+
+# Resources limit - get app limits, we can get math, they not need to be monitor we give them contracts
+resources:
+  requests:
+    cpu: 1
+    memory: 16
+  limits:
+    cpu: 1
+    memory: 16
+
+# Stafefull state with volumes!  - storage is decapled from the machine
+# in this scenario mount and unmount somewhere else
+volumes:
+  - name: mysql
+  gceRersistentDisk:
+    
+
+
+VM 
+# Openshift   - give me support, comfort
+# Cloud       - Google Container Engine, Resorce Container Service
+# Own Cloud   - 
+
+disruptiveStartUp.io          - GCE
+secretForeignGovtDept.xx      - 
+genericWeatherService.com     -  
+
+
+# Kubernetes extensions
+#------------------------------------------------------------------------------
+# to 
+cat extensions/certificate.yml
+apiVersion: extensions/v1beta1
+kind: ThirdPartyResource
+description: "A specification of a let's Encrypt Certificate to external https"
+versions:
+  - name: v1
+
+
+
+# Kubernetes Service
+#------------------------------------------------------------------------------
+# service is a REST object in Kubernetes
+
 
 
 # Kubernetes Namespace
