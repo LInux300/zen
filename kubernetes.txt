@@ -1,6 +1,44 @@
+# Velocity
+
+administration is the exception, not the rule
+
+Lift and Ship
+
+Kubernetes
+    Open-shift  - Red Hat
+    Lambda      - Amazon
+    GKE         - Google Cloud may call it GKE plus some services
+
+BeyondCorp. - in google, if you assume that it's going to be bad if someone is
+     was insite of your network then pretend that someone is already inside your
+     network and act accordingly
+
+The mainframe, you want to proces census data - ultimate developer
+     workflow in,out
+
+Kubeflow   - this is a workflow or at least an opinionated workflow for
+             doing machine-learning or some analytics work
+
+Istio - maybe network should be smart
+- Managing traffic flows between services
+- Aggregating telemetry data
+- Enforcing access policies
+- Istio control plane (pilot, mixer, auth)
+- Adaptors for backend infrastructure
+- Envoy side-car
+
+istioctl
+
+# Vault HashCorp-
+
+Spi
+
+
+
+
 # Kubernetes Frainwork
 
-# Kubernetes CMDs 
+# Kubernetes CMDs
 #------------------------------------------------------------------------------
 kubectl apply -f deployment/webapp.yml
 kubectl create -f py.yml
@@ -18,6 +56,7 @@ kubectl describe svc webapp                   # automaticaly, load balancer
 kubectl get namespace <Namespace name>
 kubectl get pods
 kubectl get svc
+kubectl get configmaps
 watch kubectl get jobs
 kubectl get secrets
 kubectl log Testing_for_Image_pull            # gives me success or failure
@@ -113,7 +152,7 @@ spec:
 
 # Kubernetes Jobs
 #------------------------------------------------------------------------------
-# Example3 Scheduled Job "ps -eaf": every 30 min; 
+# Example3 Scheduled Job "ps -eaf": every 30 min;
 apiVersion: v1
 kind: Job
 metadata:
@@ -185,7 +224,7 @@ sudo apt-get install apt-transport-https ca-certificates
                       - run in nonterminating loop;responsible for collecting 
                         and sending information to API
     - Controller Manager - multiple kind of controllers to handle nodes
-    
+
 # Kubernetes Nodes  (linux machines)
       - Docker        - running the encapsulated application containers
       - Kubelet       - responsible for relaying information to and from contrl
@@ -198,12 +237,10 @@ sudo apt-get install apt-transport-https ca-certificates
 
 
 
-
-
 # Kubernetes App Deployment
 #------------------------------------------------------------------------------
 converting images to containers and then allocating those images to pods in
-the Kubernetes cluster. setting app, deployment of app, replication cont, 
+the Kubernetes cluster. setting app, deployment of app, replication cont,
 replica set
 
 # Kubernetes Autoscaling in Cluster
