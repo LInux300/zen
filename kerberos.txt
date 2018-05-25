@@ -1,0 +1,65 @@
+
+# Kerberos can be separate to Windows, for example MIT Kerberos
+   - KDCs can be run on many platforms
+   - Kerberos clients can be run on many platforms
+   - Red Hat Identity Manager uses Kerberos and allows a domain to be build of
+   purely Linux machines
+
+
+- Client authenticates to KDC
+   - Obtain Ticket-Granting Ticket
+- Client requests a ticket for a specific service -> if ok
+   - Obtain Service Ticker
+- Client provides ticket to the service
+   - Service validates Service Ticket
+
+# Requesting Access to SERVICE
+- For a client to request access to a service it must be able to uniquely
+  identify a service 
+
+Service Principal Names (SPN) are used to identify services 
+  - A name by which a client uniquely identifies an instance of a service
+  - If there are multiple instances of a service each mustt have its own SPN
+  - Each service can have multiple SPNs if there are multiple names a client 
+  might use for authentication
+    - An SPN always includes the name of the host computer, so a service might
+    register an SPN for each name or alias of its host
+
+Client has to have 
+  Before the Kerberos authentication service can use a SPN to authenticate a 
+  service, the SPN must be registered
+- For Windows
+  - Registered against the account object that represents the service
+  - A given SPN should be registered on only one account
+      SPN has to be unique, it can break kerberos if not
+  - Typically a domain administrator is required to register an SPN
+  - The LocalSystem account can register its own SPNs on the computer
+  account of the service's host 
+    - Must be of the form  "<service class>/<host>"
+    - "<host>" must be the DNS name of the local computer
+
+MIT Kerberos
+  - Does not have the extra information that is found in Active Directory
+  - Only stores principal names and passwords
+     - User Principal Names - user@REALM
+     - Service Principal Names  - <service class>/hostname@REALM
+
+Each client has a "Ticket Cache"
+   - Contains previousl requested ticket (TGT & Service Tickets )
+   - Different clients store the "Ticket Cache" differently
+      - Windows default is a memory cache
+      - UNIX default is a file cache
+      = Linux was a file cache moving towards a memory cache
+
+- For the Service to validate the Service Ticket it must decrypt something
+- We need to give the Service the credentials to decrypt the message
+- Two ways to provide credentials
+   - Windows Services - use the "run as service" credentials
+   - Other Services - use a Kerberos Keytab
+          Keytab is a file containing a collection of SPN or UPN - User Principal Names
+
+- Client able to access KDC to
+  - Authenticate - get Ticket Granting Ticket
+  - Request access to service - get Service Ticket for a given Service Principal Name
+- Server able to validate Service Tickets
+  - Requires credentials corresponding to the Service Principal Name
