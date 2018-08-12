@@ -52,6 +52,7 @@ Spi
 
 # Kubernetes CMDs
 #------------------------------------------------------------------------------
+docker ps
 kubectl apply -f deployment/webapp.yml
 kubectl create -f py.yml
 kubectl create -f namespace.yml

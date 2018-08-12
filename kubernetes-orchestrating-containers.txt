@@ -121,7 +121,50 @@ node
   Pods: pods as containers
 Kubernetes standardizes the Clound Service Providers (CSPs). just resources, you still gonna execute the same commands to the API server no matter what CSP
 
-kubectl get nodes
+a/ install docker
+b/ install kubectl
+c/ install minikube
 
+./kubectl get nodes
+vi service-sa-frontend-lb.yaml
+apiVersion: v1
+kind: Service              # 1
+metadata:
+  name: sa-frontend-lb
+spec:
+  type: LoadBalancer       # 2
+  ports:
+  - port: 80               # 3
+    protocol: TCP          # 4
+    targetPort: 80         # 5
+  selector:                # 6
+    app: sa-frontend       #
+./kubectl create -f service-sa-frontend-lb.yaml
+./kubectl get svc
 
+vi sa-frontend-pod.yaml
+apiVersion: v1
+kind: Pod                                            # 1
+metadata:
+  name: sa-frontend                                  # 2
+spec:                                                # 3
+  containers:
+    - image: rinormaloku/sentiment-analysis-frontend # 4
+      name: sa-frontend                              # 5
+      ports:
+        - containerPort: 80                          # 6
+
+kubectl create -f sa-frontend-pod.yaml
+
+./kubectl get pods
+./kubectl port-forward sa-frontend 1988:80
+
+# if you need to scale up change 
+vi sa-frontend-pod2.yaml
+      name: sa-frontend2                              # 5
+kubectl create -f sa-frontend-pod2.yaml
+
+kubectl get pod -l app=sa-frontend
+
+minikube service sa-frontend-lb
 

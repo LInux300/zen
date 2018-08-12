@@ -1,4 +1,6 @@
 echo -e "\tInstall docker on Fedora 28"
+# https://www.itzgeek.com/how-tos/linux/fedora-how-tos/how-to-install-docker-on-fedora-25-fedora-24.html
+su
 dnf remove -y docker docker-common container-selinux docker-selinux docker-engine
 dnf -y install curl
 curl -o /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/fedora/docker-ce.repo
