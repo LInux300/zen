@@ -1,0 +1,127 @@
+
+# Why are banks paying me big bucks for something as simple as Kubernetes? When anybody — anybody can learn in under three hours?
+
+#  1. Running a Microservice based application on your computer.
+#  2. Building container images for each service of the Microservice application
+#  3.Introduction to Kubernetes. Deploying a Microservice based application into a Kubernetes Managed Cluster.
+
+
+#  1. Running a Microservice based application on your computer.
+#------------------------------------------------------------------------------
+# Setting up React for Local Development
+#---------------------------------------
+# have NodeJS and NPM installed
+# go to sa-frontend
+npm install           # dowload all Javascript depen of the React app and 
+                      # place them in the folder node_modules (package.json)
+npm start             # start React app
+# for production we need to build our application into static files and serve
+# them using a web server
+npm run build         # making our React app for production
+                      # gen foulder named build,static files for ReactJS app                          # Serving static file with Nginx, nginx_install_dir/html
+
+analyzeSentence() {
+    fetch('http://localhost:8080/sentiment', {  // #1
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+                       sentence: this.textField.getValue()})// #2
+    })
+        .then(response => response.json())
+        .then(data => this.setState(data));  // #3
+}
+
+# Setting up the Spring Web Application
+#---------------------------------------
+# JDK8 and Maven
+# go to sa-webapp
+mvn install         # this generate folder target, with sentiment-analysis-web..
+# start java app
+java -jar sentiment-analysis-web-0.0.1-SNAPSHOT.jar 
+     --sa.logic.api.url=http://localhost:5000
+
+# Seting up the Python Application
+#---------------------------------------
+# python3 and pip, env variables, go to sa-logic/sa (repo)
+python -m pip install -r requirements.txt
+python -m textblob.download_corpora
+python sentiment_analysis.py   # this starts on http://0.0.0.0:5000/
+
+# my App
+from textblob import TextBlob
+from flask import Flask, request, jsonify
+app = Flask(__name__)                                   #1
+@app.route("/analyse/sentiment", methods=['POST'])      #2
+def analyse_sentiment():
+    sentence = request.get_json()['sentence']           #3
+    polarity = TextBlob(sentence).sentences[0].polarity #4
+    return jsonify(                                     #5
+        sentence=sentence,
+        polarity=polarity
+    )
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)                #6
+
+#
+
+
+#  2. Building container images for each service of the Microservice applicatio
+#------------------------------------------------------------------------------
+# create Dockerfile, from sa-frontend/build copy into nginx
+FROM nginx
+COPY build /usr/share/nginx/html
+
+# Docker Hub is a free cloud container service
+#   a/ Install Docker Ce
+#   b/ Regiser to the Docker Hub
+#   c/ login and push my image 
+docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+    # sa-frontend , $DOCKER_USER_ID replace with my docker hub username
+docker build -f Dockerfile -t $DOCKER_USER_ID/sentiment-analysis-frontend .
+docker push $DOCKER_USER_ID/sentiment-analysis-frontend
+docker run -d -p 80:80 $DOCKER_USER_ID/sentiment-analysis-frontend
+    # <hostPort>:<containerPort>
+docker-machine ip
+
+.dockerignore
+sa-frontend:
+|   .dockerignore
+|   Dockerfile
+|   package.json
+|   README.md
++---build
++---node_modules
++---public
+\---src
+
+# Building the container image for the Java Application
+ENV SA_LOGIC_API_URL http://localhost:5000          #env variable inside docker
+..
+EXPOSE 8080
+
+# Building the container image for the Python Application
+# in the Dockerfile in sa-logic
+docker run -d -p 5050:5000 $DOCKER_USER_ID/sentiment-analysis-logic
+     # run sa-logic container listen on port 5050
+docker run -d -p 8080:8080 -e SA_LOGIC_API_URL='http://<container_ip or docker machine ip>:5000' $DOCKER_USER_ID/sentiment-analysis-web-app
+     # run sa-webapp container and confure to lisen on port 8080 
+docker run -d -p 80:80 $DOCKER_USER_ID/sentiment-analysis-frontend
+     # run sa-frontend container, listen on localhost:80
+
+
+# Kubernetes
+#------------------------------------------------------------------------------
+Kubernetis is container orchestration that absctract the underlaying infrastruct
+node
+  API server - interact with the cluster
+  Kubelet: = monitors all the containers (err*pods) inside a node 
+     and communicates wih the master node.
+  Pods: pods as containers
+Kubernetes standardizes the Clound Service Providers (CSPs). just resources, you still gonna execute the same commands to the API server no matter what CSP
+
+kubectl get nodes
+
+
+
