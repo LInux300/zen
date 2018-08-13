@@ -1,0 +1,11 @@
+python 
+>> dir()
+['__builtins__', '__doc__', '__name__', '__package__']
+>> help()
+   gives me written search engine to look for anything in python
+
+Q13. What does this mean: *args, **kwargs
+    A: we use * args when we aren't sure how many arguments
+     **kwargs - we don;t know how many keyword arguments will be passed to fnc
+     args and kwargs are a convetion, you can also use *bob and **billy
+

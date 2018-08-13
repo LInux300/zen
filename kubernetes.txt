@@ -271,8 +271,45 @@ Supporte by GCE - Google Cloud Engine
 
 
 
-
+# Kubernetes Questions
 #------------------------------------------------------------------------------
+Q1: What is a Heapster?
+   A1: Heapster is cluster-wide aggregator of monitring and event data. It
+   supports Kubernetes natively and workds on all Kubernetes setups, including
+   our Deis Workflow setup.
+Q2: What is the Kubelet?
+   A2: Kubelets run pods. A pod is a collection of containers that share some
+   resources: they have a single IP and can share volumes
+Q3: What is Minikube?
+   A3: Minikube is a tool that makes it easy to run Kubernetes locally.
+   Minikube runs a single-node Kubernetes cluster inside a Vm on your laptop
+   for users looking to try out Kubernetes or develop with it day-to-day
+Q4: What is kubectl?
+   A: kubectl is a command line interface for running commands against
+   Kubernetes clusters.
+Q5: What is GKE?
+   A: Google Container Engine is a management and orchestration system for 
+   Docker and container clusters that run within Google's publc cloud services
+Q6: What is k8s?
+   A: Kubenrtenes
+Q7: Which process validates and configure data for the api object like pods,srv?
+   A: kube-apiserver process validates and configures data for the api objects
+Q8: What is the use of kube-controller-manager?
+   A: Kube-controll-manager embeds the core control loop which is a
+   non-terminating loop that regulates the state of the system
+Q9: Kubernetes objects made up of what?
+   A: Kubernetes objects are made up of Pod, Service and Volume
+Q10: What are Kubernetes controllers?
+   A: Kubernetes controllers are Replicaset, Deployment controller
+Q11: Where Kubernetes cluster data is stored?
+   A: etcd is responsible for storing KUbernetes cluster data.
+Q12: What is the role of kube-scheduler?
+   A: kube-scheduler is responsible for assigning a node to newly created pods
+Q13: Which container runtimes supported by Kubernetes?
+   A: Kubernetes supports docker and rkt container runtimes.
+Q14: What are the components interact with Kubernetes node interface?
+  A: Kubectl, kubelet and Node Congroller components interacts with Kubernetes
+  node interface
 
 
 
