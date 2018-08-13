@@ -4,8 +4,17 @@ python
 >> help()
    gives me written search engine to look for anything in python
 
-Q13. What does this mean: *args, **kwargs
+Q1. What does this mean: *args, **kwargs
     A: we use * args when we aren't sure how many arguments
      **kwargs - we don;t know how many keyword arguments will be passed to fnc
      args and kwargs are a convetion, you can also use *bob and **billy
-
+Q2: What is lambda Expressions
+  A: small anonymour functions , this function returns the sum of its two arguments
+  >>> def make_incrementor(n):
+  ...     return lambda x: x + n
+  ...
+  >>> f = make_incrementor(42)
+  >>> f(0)
+  42
+  >>> f(1)
+  43

@@ -30,6 +30,8 @@ Istio - maybe network should be smart
 - Adaptors for backend infrastructure
 - Envoy side-car
 
+- Service Mesh
+
 istioctl
 
 # Vault HashCorp-
@@ -63,6 +65,7 @@ kubectl create -f jobs/webapp-db-schema-load.yml
 kubectl create -f jobs/webapp-db-schema-seed.yml    # get pass
 kubectl create configmap nginx --from-file configs/lobsters.conf
 kubectl delete namespace <Namespace name>
+kubectl describe {resource_type}              # describes the given resources
 kubectl describe jobs/py                      # Example2; creating a job
 kubectl describe namespace <Namespace name>
 kubectl describe svc webapp                   # automaticaly, load balancer
@@ -73,9 +76,42 @@ kubectl get pvc           # get the storage - google cloud, persistent disk
 kubectl get configmaps
 watch kubectl get jobs
 kubectl get secrets
-kubectl log Testing_for_Image_pull            # gives me success or failure
+kubectl log Testing_for_Image_pull      # gives me success or failure
 kubectl logs <container name> -f 
-kubectl svc                                   # service
+kubectl port-f­orward {pod_name} {local­_po­rt}­:{r­emo­te_­port}      
+                                        # forwart the pod port to your local port
+kubectl rolling-update {pod_name}       # perform a lling update for a pod
+kubectl top                             # k8s 1.8, metrics to container CPU
+kubectl svc                             # service
+kubectl scale --repl­icas=3 {resou­rce­_ty­pe}­/{r­eso­urc­e_n­ame}     # scale 
+
+# Create/ editing objects
+kubectl apply -f ./my-manifest.yaml     # apply a configuration to a resource by 
+                                        # filename or stdin. Also overwrides existing conf
+kubectl create -f ./my-manifest.yaml    # Create resource(s)
+kubectl create -f ./dir                 # create resources(s) in all manifest files in dir
+kubectl create -f https://git.io/vPieio # create from url
+kubectl run nginx --image=nginx         # start a single instance of nginx
+kubectl edic svc/do-cher-registry       # edit the service named docker-registry
+kubectl replase --force -f ./pod.json   # force replace, delete and then re-create the resource
+                                        # will cause a service outage
+# Resource types
+configmaps             # ConfigMaps allow you to decouple configuration artifacts from image content to 
+                       # applications portable
+deamonsets             # DaemonSet ensures that all (or some) Nodes run a copy of a Pod
+deployments            # A deployment controller provides declarative updates for Pods and ReplicaSets
+ingresses
+jobs
+namespaces
+nodes
+persistentvolumeclaims
+persistentvolumes
+pods
+replicasets
+cronjob
+secrets                 #  Object of type secret are intended to hold sensitive information     
+services                # Kubernetes service is an abstraction which defines a logical set of pods
+
 
 spec:
  containers:
@@ -277,6 +313,13 @@ Q1: What is a Heapster?
    A1: Heapster is cluster-wide aggregator of monitring and event data. It
    supports Kubernetes natively and workds on all Kubernetes setups, including
    our Deis Workflow setup.
+   (Heapster is deprecated, consider using metrics-server and third party
+    metrics pipieline to gather Prometheus-format metrics instead.)
+Q1-1: What is metrics-server?
+    A: Starting from k9s 1.8 resource usage metrics, such as container CPU and 
+    memory usage are available in Kubernetes through the Metrics API
+    https://kubernetes.io/docs/tasks/debug-application-cluster/core-metrics-pipeline/
+    kubectl top
 Q2: What is the Kubelet?
    A2: Kubelets run pods. A pod is a collection of containers that share some
    resources: they have a single IP and can share volumes
@@ -310,6 +353,6 @@ Q13: Which container runtimes supported by Kubernetes?
 Q14: What are the components interact with Kubernetes node interface?
   A: Kubectl, kubelet and Node Congroller components interacts with Kubernetes
   node interface
-
+https://codingcompiler.com/kubernetes-interview-questions-answers/
 
 
