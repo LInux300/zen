@@ -1,61 +1,12 @@
-# Velocity
-# Administration is the exception, not the rule
-# Lift and Ship
-anyone tried to do Service Discovery across two or Three Kubernetes - you can't
-it is not design for that. Kubernetes is design for Inter Cluster Service Discovery
-# Kubernetes very basic secrets for bootstrapping things, bootstrap Kubernetes
-itself, then encryption of REST and limiting what node can see
 
-
-Kubernetes
-    Open-shift  - Red Hat
-    Lambda      - Amazon
-    GKE         - Google Cloud may call it GKE plus some services
-
-BeyondCorp. - in google, if you assume that it's going to be bad if someone is
-     was insite of your network then pretend that someone is already inside your
-     network and act accordingly
-
-The mainframe, you want to proces census data - ultimate developer
-     workflow in,out
-
-Kubeflow   - this is a workflow or at least an opinionated workflow for
-             doing machine-learning or some analytics work
-
-Istio - maybe network should be smart
-- Managing traffic flows between services
-- Aggregating telemetry data
-- Enforcing access policies
-- Istio control plane (pilot, mixer, auth)
-- Adaptors for backend infrastructure
-- Envoy side-car
-
-- Service Mesh
-
-istioctl
-
-# Vault HashCorp-
-
-Hashinetes
-|  CONSUL    |    VAULT   |
-|  KUBERNETES             |       NOMAD  |
-|  NETWORK |  INFRASTRUCTURE |  STORAGE  |
-
-Thias are just interfases gives as compute and the way how we want to consume,
-some schedulers gives as row machines that we want to ssh into, some schedulers
-just run the app, we don't care about machine apstraction, in some cases 
-
-Spi
-
-
-
-
-# Kubernetes Frainwork
-
-# Kubernetes CMDs
+#------------------------------------------------------------------------------
+# GCP  &  Kubernetes CMDs
 #------------------------------------------------------------------------------
 docker ps
 kubectl apply -f deployment/webapp.yml
+kubectl apply -f ./my-manifest.yaml     # apply configuration to a resource by 
+                                        # file or stdin. overwrides existing conf
+kubectl create configmap nginx --from-file configs/lobsters.conf
 kubectl create -f py.yml
 kubectl create -f namespace.yml
 kubectl create -f deployment/mysql.yml
@@ -63,43 +14,86 @@ kubectl create -f deployment/webapp.yml
 kubectl create -f extensions/certificate.yml
 kubectl create -f jobs/webapp-db-schema-load.yml
 kubectl create -f jobs/webapp-db-schema-seed.yml    # get pass
-kubectl create configmap nginx --from-file configs/lobsters.conf
+kubectl create -f ./my-manifest.yaml                # Create resource(s)
+kubectl create -f ./dir                      # create resources(s) in all manifest  
+                                             # files in dir
+kubectl create -f https://git.io/vPieio      # create from url
 kubectl delete namespace <Namespace name>
-kubectl describe {resource_type}              # describes the given resources
-kubectl describe jobs/py                      # Example2; creating a job
+kubectl describe {resource_type}             # describes the given resources
+kubectl describe jobs/py                     # Example2; creating a job
 kubectl describe namespace <Namespace name>
-kubectl describe svc webapp                   # automaticaly, load balancer
+kubectl describe svc webapp                  # automaticaly, load balancer
+kubectl edit svc/docker-registry        # edit the service named docker-registry
 kubectl get namespace <Namespace name>
 kubectl get pods
 kubectl get svc
-kubectl get pvc           # get the storage - google cloud, persistent disk
+kubectl get pvc                         # storage: google cloud,persistent disk
 kubectl get configmaps
-watch kubectl get jobs
-kubectl get secrets
+kubectl get secrets                     # watch kubectl get jobs
 kubectl log Testing_for_Image_pull      # gives me success or failure
 kubectl logs <container name> -f 
 kubectl port-f­orward {pod_name} {local­_po­rt}­:{r­emo­te_­port}      
                                         # forwart the pod port to your local port
+kubectl replase --force -f ./pod.json   # force replace, delete and then 
+                                        # re-create the resource
+                                        # will cause a service outage
+kubectl run nginx --image=nginx         # start a single instance of nginx
 kubectl rolling-update {pod_name}       # perform a lling update for a pod
 kubectl top                             # k8s 1.8, metrics to container CPU
 kubectl svc                             # service
 kubectl scale --repl­icas=3 {resou­rce­_ty­pe}­/{r­eso­urc­e_n­ame}     # scale 
+watch kubectl get jobs
 
-# Create/ editing objects
-kubectl apply -f ./my-manifest.yaml     # apply a configuration to a resource by 
-                                        # filename or stdin. Also overwrides existing conf
-kubectl create -f ./my-manifest.yaml    # Create resource(s)
-kubectl create -f ./dir                 # create resources(s) in all manifest files in dir
-kubectl create -f https://git.io/vPieio # create from url
-kubectl run nginx --image=nginx         # start a single instance of nginx
-kubectl edic svc/do-cher-registry       # edit the service named docker-registry
-kubectl replase --force -f ./pod.json   # force replace, delete and then re-create the resource
-                                        # will cause a service outage
+
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#   GCLOUD
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+gshell        # cloud shell is a machine instance that runs gcloud, my cmd line
+gcloud        # connect to resources in the cloud
+              # Google Cloud SDK offers permanent connection
+gcloud -h
+gcloud config list                           # current default project
+gcloud compute --help
+gcloud compute ssh <instance_name>           # ssh into instance to set up soft            # Google Kubernetes Engine (GKE); Google Compute Engine (GCE)
+gcloud compute instances create --help
+gcloud config set compute/zone europe-west3-c  # def value for anynew instance
+gcloud compute disks create test-disk --size=50GB --zone europe-west3-c
+            # creating a new persistent disk
+gcloud compute instances attach-disk test-instance --disk test-disk --zone europe-west3-c
+            # name of the disk; attach test disk to our test instance
+            # ls -l /dev/disk/by-id/ > all hard drives (persistent-disk-1)
+gcloud compute instances attach-disk test-instance --disk sdb --mode ro
+            # share a non-bootable persistent dist between multiple VM,read-only
+gcloud compute dist resize test-disk --size 60GB
+   # sudo growpart /dev/sda1  # [PARTITION NUMBER]; run before resize2fs,3steps
+   # sudo resize2fs /dev/sda/1
+   # df -h
+
+
+# Linux procedure for Formatting and Mounting a Persistend Disk
+#------------------------------------------------------------------------------
+sudo lsblk          # list attached disks to my instance
+sudo mkfs.ext4 -m 0 -F -E lazy_itable_init=0, lazy_journal_init=0, discard /dev/sda
+                    # format disks, make filesystem 
+sudo mkdir /mnt/my-mounting-dir
+sudo mount -o discard, defaults /dev/sda /mnt/my-mounting-dir
+sudo chmod a+w /mnt/my-mounting-dir
+
+
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#   KUBERNETES
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+
 # Resource types
-configmaps             # ConfigMaps allow you to decouple configuration artifacts from image content to 
-                       # applications portable
-deamonsets             # DaemonSet ensures that all (or some) Nodes run a copy of a Pod
-deployments            # A deployment controller provides declarative updates for Pods and ReplicaSets
+#------------------------------------------------------------------------------
+configmaps             # ConfigMaps allow you to decouple configuration 
+                       # artifacts from image content to applications portable
+deamonsets             # ensures that all or some Nodes run copy of Pod
+deployments            # provides declarative updates for Pods and ReplicaSets
 ingresses
 jobs
 namespaces
@@ -109,8 +103,8 @@ persistentvolumes
 pods
 replicasets
 cronjob
-secrets                 #  Object of type secret are intended to hold sensitive information     
-services                # Kubernetes service is an abstraction which defines a logical set of pods
+secrets                # Object is intended to hold sensitive information     
+services               # ser is abstraction which defines a logical set of pods
 
 
 spec:
@@ -138,8 +132,6 @@ volumes:
   - name: mysql
   gceRersistentDisk:
     
-
-
 VM 
 # Openshift   - give me support, comfort
 # Cloud       - Google Container Engine, Resorce Container Service
@@ -161,11 +153,9 @@ versions:
   - name: v1
 
 
-
 # Kubernetes Service
 #------------------------------------------------------------------------------
 # service is a REST object in Kubernetes
-
 
 
 # Kubernetes Namespace
@@ -179,6 +169,7 @@ metadata:
   namespace: elk
   labels:
     com
+
 
 # Kubernetes Labels & Selectors
 #------------------------------------------------------------------------------
@@ -197,7 +188,6 @@ spec:
   selector:
     app: salesplatform
     component: neo4j
-
 
 
 # Kubernetes Jobs
@@ -284,9 +274,6 @@ sudo apt-get install apt-transport-https ca-certificates
                       - manages networking part for nodes
 
 
-
-
-
 # Kubernetes App Deployment
 #------------------------------------------------------------------------------
 converting images to containers and then allocating those images to pods in
@@ -298,13 +285,6 @@ replica set
 Supporte by GCE - Google Cloud Engine
             GKE - Google Container Engine
             AWS
-
-
-
-
-
-#------------------------------------------------------------------------------
-
 
 
 # Kubernetes Questions
@@ -355,4 +335,48 @@ Q14: What are the components interact with Kubernetes node interface?
   node interface
 https://codingcompiler.com/kubernetes-interview-questions-answers/
 
+
+# Lift and Ship
+#------------------------------------------------------------------------------
+anyone tried to do Service Discovery across two or Three Kubernetes - you can't
+it is not design for that. Kubernetes is design for Inter Cluster Service Discovery
+# Kubernetes very basic secrets for bootstrapping things, bootstrap Kubernetes
+itself, then encryption of REST and limiting what node can see
+
+Kubernetes
+    Open-shift  - Red Hat
+    Lambda      - Amazon
+    GKE         - Google Cloud may call it GKE plus some services
+
+BeyondCorp. - in google, if you assume that it's going to be bad if someone is
+     was insite of your network then pretend that someone is already inside your
+     network and act accordingly
+
+Kubeflow   - this is a workflow or at least an opinionated workflow for
+             doing machine-learning or some analytics work
+
+# Istio
+#------------------------------------------------------------------------------
+- maybe network should be smart
+- Managing traffic flows between services
+- Aggregating telemetry data
+- Enforcing access policies
+- Istio control plane (pilot, mixer, auth)
+- Adaptors for backend infrastructure
+- Envoy side-car
+
+- Service Mesh
+
+istioctl
+
+# Vault HashCorp-
+#------------------------------------------------------------------------------
+Hashinetes
+|  CONSUL    |    VAULT   |
+|  KUBERNETES             |       NOMAD  |
+|  NETWORK |  INFRASTRUCTURE |  STORAGE  |
+
+Thise are interfases gives the way how we want to consume and compute,
+some schedulers gives as row machines that we want to ssh into, some schedulers
+just run the app, sometimes we don't care about machine apstraction. 
 
