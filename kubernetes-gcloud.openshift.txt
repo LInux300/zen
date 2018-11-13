@@ -44,6 +44,17 @@ kubectl svc                             # service
 kubectl scale --repl­icas=3 {resou­rce­_ty­pe}­/{r­eso­urc­e_n­ame}     # scale
 watch kubectl get jobs
 
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# OpenShift
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+https://learn.openshift.com/             # Interactive Learning Portal !!!
+
+https://learn.openshift.com/introduction/deploying-images/
+oc login -u developer -p developer
+oc new-project my-project-01
+oc new-app centos/ruby-22-centos7~https://github.com/openshift/ruby-ex.git
 
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
