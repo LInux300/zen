@@ -2,6 +2,14 @@
 INSTALL_DIR=$HOME/kubernetes
 mkdir -p $INSTALL_DIR
 cd $INSTALL_DIR
+function installDocker() {
+    mkdir ~/src && cd ~/src
+    wget https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz
+    tar -xvzf docker-latest.tgz
+    mkdir -p ~/docker/bin
+    mv docker/* ~/docker/bin
+    ~/docker/bin/dockerd &
+}
 
 download_minikube_kubectl()  {
       echo -e "\tINFO: Downloading minikube ..."
@@ -39,11 +47,15 @@ while test $# -gt 0; do
       echo "#  APP: $APP_NAME"
       echo "#--------------------------------------------------------------------"
       echo -e "\t-h|--help"
+      echo -e "\t-dd|--download_install_docker"
       echo -e "\t-d|--download_minikube_kubectl"
-      echo -e "\t-d|--run_minikube_kubectl"
+      echo -e "\t-r|--run_minikube_kubectl"
       echo ""
       echo "#--------------------------------------------------------------------"
       exit 0
+      ;;
+    -dd|--download_install_docker)
+      installDocker
       ;;
     -d|--download_minikube_kubectl)
       download_minikube_kubectl
