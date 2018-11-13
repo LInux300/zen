@@ -4,7 +4,7 @@
 #------------------------------------------------------------------------------
 docker ps
 kubectl apply -f deployment/webapp.yml
-kubectl apply -f ./my-manifest.yaml     # apply configuration to a resource by 
+kubectl apply -f ./my-manifest.yaml     # apply configuration to a resource by
                                         # file or stdin. overwrides existing conf
 kubectl create configmap nginx --from-file configs/lobsters.conf
 kubectl create -f py.yml
@@ -15,7 +15,7 @@ kubectl create -f extensions/certificate.yml
 kubectl create -f jobs/webapp-db-schema-load.yml
 kubectl create -f jobs/webapp-db-schema-seed.yml    # get pass
 kubectl create -f ./my-manifest.yaml                # Create resource(s)
-kubectl create -f ./dir                      # create resources(s) in all manifest  
+kubectl create -f ./dir                      # resources(s) in all manifest
                                              # files in dir
 kubectl create -f https://git.io/vPieio      # create from url
 kubectl delete namespace <Namespace name>
@@ -31,17 +31,17 @@ kubectl get pvc                         # storage: google cloud,persistent disk
 kubectl get configmaps
 kubectl get secrets                     # watch kubectl get jobs
 kubectl log Testing_for_Image_pull      # gives me success or failure
-kubectl logs <container name> -f 
-kubectl port-f­orward {pod_name} {local­_po­rt}­:{r­emo­te_­port}      
+kubectl logs <container name> -f
+kubectl port-f­orward {pod_name} {local­_po­rt}­:{r­emo­te_­port}
                                         # forwart the pod port to your local port
-kubectl replase --force -f ./pod.json   # force replace, delete and then 
+kubectl replase --force -f ./pod.json   # force replace, delete and then
                                         # re-create the resource
                                         # will cause a service outage
 kubectl run nginx --image=nginx         # start a single instance of nginx
 kubectl rolling-update {pod_name}       # perform a lling update for a pod
 kubectl top                             # k8s 1.8, metrics to container CPU
 kubectl svc                             # service
-kubectl scale --repl­icas=3 {resou­rce­_ty­pe}­/{r­eso­urc­e_n­ame}     # scale 
+kubectl scale --repl­icas=3 {resou­rce­_ty­pe}­/{r­eso­urc­e_n­ame}     # scale
 watch kubectl get jobs
 
 
@@ -54,29 +54,181 @@ gshell        # cloud shell is a machine instance that runs gcloud, my cmd line
 gcloud        # connect to resources in the cloud
               # Google Cloud SDK offers permanent connection
 gcloud -h
-gcloud config list                           # current default project
+gcloud config set project [PROJECT_ID]
+gcloud config set compute/zone europe-west3-c
+gcloud config set compute/region europe-west3
+gcloud components update
+
+
+gcloud config list                           # current default project,
 gcloud compute --help
-gcloud compute ssh <instance_name>           # ssh into instance to set up soft            # Google Kubernetes Engine (GKE); Google Compute Engine (GCE)
+gcloud compute ssh <instance_name>           # ssh into instance to set up soft
+              # Google Kubernetes Engine (GKE); Google Compute Engine (GCE)
+
+#------------------------------------------------------------------------------
+# Google Kubernetes Engine (GKE);  KUBERNETES
+#------------------------------------------------------------------------------
+vim $HOME/.kube/config                   # yaml
+gcloud container cluster create my-first-cluster --num-nodes 1
+gcloud container clusters describe
+gcloud container clusters get-credentials
+gcloud compute instances list            # list of clusters and VM instances
+kubectl config current-context           # content of kubectl
+kubectl config view                     # my environment's kubeconfig
+kubectl run wordpress --image=tutum/wordpress --port=80
+kubectl get pods                         # status of pods
+kubectl expose pod wordpress-26444744461-hjlir \
+  --name=wordpress \
+  --type=LoadBalancer                    # for first time app expose, get external ip
+kubectl describe services wordpress      # LoadBalancer Ingress: <external_ip>
+
+# Storage and persistend disks
+vim ssd.yaml
+    apiVersion: storage.k8s.io/v1
+    kind: StorageClass
+    metadata:
+      name: ssd
+    provisioner: kubernetes.io/gce.pd
+    parameters:
+      type: pd-ssd
+vim storage-change.yaml
+    kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: storache-change
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: ssd
+      resources:
+      requests:
+      storage: 1Gi
+kubectl apply -f ssd.yaml
+kubectl apply -f storage-change.yaml
+
+# Load balancing
+kubectl run nginx --image=nginx --port=80              # single replica nginx
+kubectl expose deployment nginx --target-port=80 --type=NodePort
+    # create a service resource to access nginx, NodePort any random high port
+kubectl get service nginx
+vim basic-ingress.yaml
+    apiVersion: extensions/v1beta1
+    kind: Ingress
+    metadata:
+      name: basic-ingress
+    spec:
+      backend:
+        servicename: nginx
+kubectl apply -f basic-ingress.yaml
+kubectl get ingress basic-ingress           # find out external IP address
+kubectl delete ingress basic-ingress
+
+# Scaling with autoscaler
+gcloud container clusters create my-cluster --num-nodes=2 \
+  --enable-autoscaling --min-nodes=1 --max-notes=3 --zone=europe-west3-c \
+  --project=my-project-id
+# Scaling pods with the Horizontal Pod Autoscaler (HPA)
+kubectl autoscale deployment my-app --max=6 --min=1 --cpu-percent=50
+kubectl describe hpa [NAME-OF-HPA]
+kubectl delete hpa [NAME-OF-HPA]
+
+# Rolling updates
+kubectl set image deployment nginx nginx=nginx:1.14.1
+kubectl set resources deployment nginx --limits=cpu=400m,memory=1024Mi \
+  --requests=cpu=200m,memory=512Mi
+         # control resource allocation for the updates
+kubectl rollout status deployment nginx   # roll out automatic updates
+kubectl rollout pause deployment nginx
+kubectl rollout resume deployment nginx
+kubectl rollout undo deployment nginx --to-revision=3
+kubectl rollout history deployment nginx
+
+# Container Registry  - private docker repo
+docker tag nginx us.gcr.io/my-project/nginx      # zone us
+gcloud docker --push us.gcr.io/my-project/nginx
+gcloud docker --pull us.gcr.io/my-project/nginx
+gcloud container images delete us.gcr.io/my-project/nginx
+gcloud run nginx --image=us.gcr.io/my-project/nginx
+
+
+# old way
+#------------------------------------------------------------------------------
+# Containers with App Engine Flex > Java 8, Python 2.7, Go, PHP
+# Running a simple Python app with App Engine Flex
+git clone https://github.com/GoogleCloudPlatform/python-docs-samples
+cd python-docs-samples/appengine/flexible/hello_world
+python main.py
+http://localhost:8080
+sudo pip install virtualenv
+virtualenv env
+source env/bin/activate
+pip install -r requirements.txt
+gcloud app deploy
+gcloud app browse
+
+#------------------------------------------------------------------------------
+# Google Compute Engine (GCE)  - old way with VMs
+#------------------------------------------------------------------------------
 gcloud compute instances create --help
 gcloud config set compute/zone europe-west3-c  # def value for anynew instance
-gcloud compute disks create test-disk --size=50GB --zone europe-west3-c
-            # creating a new persistent disk
-gcloud compute instances attach-disk test-instance --disk test-disk --zone europe-west3-c
-            # name of the disk; attach test disk to our test instance
-            # ls -l /dev/disk/by-id/ > all hard drives (persistent-disk-1)
+gcloud compute disks create test-disk \
+  --size=50GB \
+  --zone europe-west3-c
+              # create new persistent disk go'Formatting and Mounting'
+gcloud compute instances attach-disk test-instance \
+  --disk test-disk \
+  --zone europe-west3-c
+              # name of the disk; attach test disk to our test instance
+              # ls -l /dev/disk/by-id/ > all hard drives (persistent-disk-1)
 gcloud compute instances attach-disk test-instance --disk sdb --mode ro
-            # share a non-bootable persistent dist between multiple VM,read-only
+              # share a non-bootable pers disk between multiple VM,read-only
 gcloud compute dist resize test-disk --size 60GB
    # sudo growpart /dev/sda1  # [PARTITION NUMBER]; run before resize2fs,3steps
    # sudo resize2fs /dev/sda/1
    # df -h
+
+# Startup Scripts 1
+gcloud compute instances create example-instance --tags http-server --metadata startup-script='#!/bin/bash
+# Instals apache and a custom homepage
+sudo su -    # Go to root directory
+apt-get update
+apt-get install -y apache2
+apt-get install -y libapache2-mod-php php
+apt-get install mysql-server php5-mysql php-pear
+sudo sh -c 'echo "[MY_PHP_CODE]" > /var/www/html/test.php
+# wget http://external-ip/test.php
+cat <<EOF > /var/www/html/index.html
+<html><body><h1>Hi</h1></body><p>Generated automaticly</p></html>
+EOF'
+# Startup Script 2 - running instance, from file
+gcloud compute instances add-metadata example-instance --metadata-from-file startup-script=/tmp/my-start-up-script.sh
+
+# Snapshot a disk
+gcloud compute disks snapshot sda              # disk name as argument
+gcloud compute snapshots list                  # verify just created snapshot
+gcloud compute disks create sdb --source-snapshot=test-instance-snapshot --size=60GB
+       # restore data from created snapshot
+gcloud compute instances attach-disk test-instance01 --disk=sdb
+       # attach this persistend disk to an instance
+gcloud compute snapshots delete test-instance-snapshot      # delete snapshop
+
+# Create a Image
+gcloud compute images create sda-image \
+  --source-disk sda \
+  --source-disk-zone europe-west3-c \
+  --family debian-9
+# create image from another image
+gcloud compute images create new-sda-image \
+  --source-image sda-image \
+  --source-image-project [image_project] \
+  --family debian-9
 
 
 # Linux procedure for Formatting and Mounting a Persistend Disk
 #------------------------------------------------------------------------------
 sudo lsblk          # list attached disks to my instance
 sudo mkfs.ext4 -m 0 -F -E lazy_itable_init=0, lazy_journal_init=0, discard /dev/sda
-                    # format disks, make filesystem 
+                    # format disks, make filesystem
 sudo mkdir /mnt/my-mounting-dir
 sudo mount -o discard, defaults /dev/sda /mnt/my-mounting-dir
 sudo chmod a+w /mnt/my-mounting-dir
@@ -90,7 +242,7 @@ sudo chmod a+w /mnt/my-mounting-dir
 
 # Resource types
 #------------------------------------------------------------------------------
-configmaps             # ConfigMaps allow you to decouple configuration 
+configmaps             # ConfigMaps allow you to decouple configuration
                        # artifacts from image content to applications portable
 deamonsets             # ensures that all or some Nodes run copy of Pod
 deployments            # provides declarative updates for Pods and ReplicaSets
@@ -103,7 +255,7 @@ persistentvolumes
 pods
 replicasets
 cronjob
-secrets                # Object is intended to hold sensitive information     
+secrets                # Object is intended to hold sensitive information
 services               # ser is abstraction which defines a logical set of pods
 
 
@@ -131,20 +283,20 @@ resources:
 volumes:
   - name: mysql
   gceRersistentDisk:
-    
-VM 
+
+VM
 # Openshift   - give me support, comfort
 # Cloud       - Google Container Engine, Resorce Container Service
-# Own Cloud   - 
+# Own Cloud   -
 
 disruptiveStartUp.io          - GCE
-secretForeignGovtDept.xx      - 
-genericWeatherService.com     -  
+secretForeignGovtDept.xx      -
+genericWeatherService.com     -
 
 
 # Kubernetes extensions
 #------------------------------------------------------------------------------
-# to 
+# to
 cat extensions/certificate.yml
 apiVersion: extensions/v1beta1
 kind: ThirdPartyResource
@@ -173,7 +325,7 @@ metadata:
 
 # Kubernetes Labels & Selectors
 #------------------------------------------------------------------------------
-# Example4: Set-based selecors allow filtering of keys according to 
+# Example4: Set-based selecors allow filtering of keys according to
             a set of values
 
 apiVersion :v1
@@ -261,7 +413,7 @@ sudo apt-get install apt-transport-https ca-certificates
       - etcd          -key value store,can be distributed among multiple nodes
       - API Server    - act as communicator among different componets of Kub
       - Scheduler     - regulates the state of cluster and performs a task
-                      - run in nonterminating loop;responsible for collecting 
+                      - run in nonterminating loop;responsible for collecting
                         and sending information to API
     - Controller Manager - multiple kind of controllers to handle nodes
 
@@ -296,7 +448,7 @@ Q1: What is a Heapster?
    (Heapster is deprecated, consider using metrics-server and third party
     metrics pipieline to gather Prometheus-format metrics instead.)
 Q1-1: What is metrics-server?
-    A: Starting from k9s 1.8 resource usage metrics, such as container CPU and 
+    A: Starting from k9s 1.8 resource usage metrics, such as container CPU and
     memory usage are available in Kubernetes through the Metrics API
     https://kubernetes.io/docs/tasks/debug-application-cluster/core-metrics-pipeline/
     kubectl top
@@ -311,7 +463,7 @@ Q4: What is kubectl?
    A: kubectl is a command line interface for running commands against
    Kubernetes clusters.
 Q5: What is GKE?
-   A: Google Container Engine is a management and orchestration system for 
+   A: Google Container Engine is a management and orchestration system for
    Docker and container clusters that run within Google's publc cloud services
 Q6: What is k8s?
    A: Kubenrtenes
@@ -378,5 +530,5 @@ Hashinetes
 
 Thise are interfases gives the way how we want to consume and compute,
 some schedulers gives as row machines that we want to ssh into, some schedulers
-just run the app, sometimes we don't care about machine apstraction. 
+just run the app, sometimes we don't care about machine apstraction.
 
