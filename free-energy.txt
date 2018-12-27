@@ -1,0 +1,59 @@
+#------------------------------------------------------------------------------
+# Rodin Coil
+# Daniel Nunez
+#------------------------------------------------------------------------------
+# https://1stopenergies.com/
+#
+
+# POE Mini: Overunity Measurement using 6 Meters and one Scope!
+# https://www.youtube.com/watch?time_continue=256&v=KJyb9tnlcaw
+
+POE Mini: Overunity Measurement using 6 meters and one scope
+
+
+#------------------------------------------------------------------------------
+# TASK 1   : POE Mini Overunity Measurement using 6 Meters and one Scope
+#------------------------------------------------------------------------------
+https://www.youtube.com/watch?time_continue=256&v=KJyb9tnlcaw
+Android Phone as signal generator, sound frequency, this machine should be
+amplified by the Insignia amplifier it's a regular home stereo amp that goes
+into the coil we'are measuring amperage voltage and the power with analog meter
+then it comes out of the coil and into the LED where we're also measuring
+amperage voltage and power with another analog meter we've just got this pickup
+coil just to show the distanc of wireless electrical connection there so
+start up the sound frequency we're using a frequency of 17 point one kilohertz
+from the speaker we're generating a voltage 21,7 from output speaker plugs on
+the amplifier that's what's feeding into the coil we're looking at
+point seven two point zero seventy four miliaps ( 0.074 mA )
+
+on the output side we're 113.6 V and 0.024 mA so the amerage is lower now that
+could be changed with a capacitor by putting a capacitor across the outputs
+but I wanted to do this without a capacitor so this is just a coil in the raw
+connected to these LEDs
+
+this type of coil could potentially be wired up in a very specific configuration
+make it power itself and that's the ultimate goal we want to have these coils
+self-powering we want to somehow recapture the extra energy that's coming
+out of the output end loop it back around so that may mean storing a bank of
+capacitors so you know we have a bunch of different types of capacitors here
+and we've beem experimenting with that but nonetheless it's an interesting
+concept that needs a bit more analysis not to mention if i go ahead and i
+disconnect those LEDs and i just leave this coil open-ended pulsing it will
+start creating a large amount of ozone and it sprays out directly from the
+center of the coil so not too sure why that happens it's just like this
+arcing that that happens with the intense magnetic field right in the center
+of the coil so we can create technologies that are far more efficient
+
+
+
+# Email
+#------------------------------------------------------------------------------
+Hi
+thank you very much,  please we would like to do "POE Mini: Overunity Measurement" at home and have some free energy, maybe store in batery, lights, play with it :-)
+
+please "Winding Direction" not sure which one is the best , could you help, thank you very much
+https://1stopenergies.com/products/poe-vortex-coil-mini-144
+
+sourc: POE Mini: Overunity Measurement using 6 Meters and one Scope
+https://www.youtube.com/watch?time_continue=256&v=KJyb9tnlcaw
+
