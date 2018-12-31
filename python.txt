@@ -1,4 +1,4 @@
-python 
+python
 >> dir()
 ['__builtins__', '__doc__', '__name__', '__package__']
 >> help()
@@ -9,7 +9,7 @@ Q1. What does this mean: *args, **kwargs
      **kwargs - we don;t know how many keyword arguments will be passed to fnc
      args and kwargs are a convetion, you can also use *bob and **billy
 Q2: What is lambda Expressions
-  A: small anonymour functions , this function returns the sum of its two arguments
+  A: small anonymous functions, this function returns the sum of its two arguments
   >>> def make_incrementor(n):
   ...     return lambda x: x + n
   ...

