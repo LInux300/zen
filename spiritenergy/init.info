@@ -1,0 +1,108 @@
+#!/bin/bash
+echo -e "\tWARN: Hints to do Wordpress ..."
+echo -e "\tINFO: https://cloud.google.com/kubernetes-engine/docs/tutorials/persistent-disk"
+exit
+#------------------------------------------------------------------------------
+# Cmd
+#------------------------------------------------------------------------------
+sudo gcloud components update kubectl  # install kubectl
+gcloud auth login                      # re-authenticate to the gloud
+gcloud container clusters list         # get list of my clusters
+gcloud auth application-default login  # ensure kubectl has authentication cred
+gcloud compute project-info describ  <Vm-name>  # vm project
+gcloud container clusters describe test         # containter project
+gcloud container clusters describe test --format=get"(network)"
+gcloud container clusters update test --monitoring-service=monitoring.googleapis.com
+
+# How to Wordpress
+#------------------------------------------------------------------------------
+echo -e "\tINTO: Enable BIlling on google"
+gcloud init
+echo -e "\tINFO: Choose your google project"
+
+
+echo -e "\tINFO: Install kubectl"
+gcloud components install kubectl
+
+echo -e "\tINFO: Set my project"
+gcloud projects list
+gcloud config set project spiritenergy
+gcloud config set compute/zone europe-west3
+gcloud config list                   # shows current projet, account, zone, [core],[compute]
+
+echo -e "\tINFO: Download kubernetes yaml files"
+git clone https://github.com/GoogleCloudPlatform/kubernetes-engine-samples
+cd kubernetes-engine-samples/wordpress-persistent-disks
+echo -e "\tINFO"
+echo -e "\tINFO: Create a GKE cluster"
+# Kubernetes Engine API is not enabled for this project.
+# Please ensure it is enabled in Google Cloud Console
+gcloud compute project-info describe --project spiritenergy       # very detail project info
+gcloud compute regions describe europe-west4    # check quotas in region
+# change quatas  https://cloud.google.com/compute/quotas
+echo -e "\tHELP: https://cloud.google.com/sdk/gcloud/reference/container/clusters/create"
+gcloud container clusters create persistent-disk-tutorial --num-nodes=2
+#gcloud container clusters delete persistent-disk-tutorial   # delete
+# gcloud container clusters describe test
+
+echo -e "\tINFO: checks mysql-volumeclaim.yaml, wordpress-volumeclaim.yaml"
+vim mysql-volumeclaim.yaml
+vim wordpress-volumeclaim.yaml
+echo -e "\tINFO: Apply kubernetes claims ..."
+kubectl apply -f kubernetes-engine-samples/wordpress-persistent-disks/mysql-volumeclaim.yaml
+kubectl apply -f kubernetes-engine-samples/wordpress-persistent-disks/wordpress-volumeclaim.yaml
+kubectl get pvc                # get list of claims
+
+
+echo -e "\tINFO: Deploy MySQL ..."
+# replace YOUR_PASSWORD with a passphrase of my choise
+kubectl create secret generic mysql --from-literal=password=YOUR_PASSWORD
+kubectl get secrets
+kubectl describe secrets/mysql
+vim mysql.yaml
+kubectl create -f kubernetes-engine-samples/wordpress-persistent-disks/mysql.yaml
+# MYSQL_ROOT_PASSWORD environment variable whose value is set from the secret created.
+# check
+kubectl get pod -l app=mysql
+
+echo -e "\tINFO: Create MySQL service ..."
+vim mysql-service.yaml
+kubectl create -f kubernetes-engine-samples/wordpress-persistent-disks/mysql-service.yaml
+kubectl get service mysql
+
+echo -e "\tINFO: Set up WordPress ..."
+vim wordpress.yaml
+kubectl create -f kubernetes-engine-samples/wordpress-persistent-disks/wordpress.yaml
+# This container reads the WORDPRESS_DB_PASSWORD environment variable from the database password Secret you created earlier.
+
+kubectl get pod -l app=wordpress
+echo -e "\tINFO: Expose WordPress Service ..."
+vim wordpress-service.yaml
+kubectl create -f kubernetes-engine-samples/wordpress-persistent-disks/wordpress-service.yaml
+kubectl get svc -l app=wordrpress
+
+
+echo -e "\tINFO: Visit your new WordPress blog ..."
+firefox <External-IP>/wd-admin/install.php
+
+echo -e "\tINFO: Test data persistence on failure ..."
+kubectl get pods -o=wide
+kubectl delete pod -l app=mysql
+kubectl get pods -o=wide
+
+
+#echo -e "\tINFO: Undating application images ..."
+#kubectl apply -f wordpress.yaml
+
+#echo -e "\tINFO: Cleaning up, deallocate the Cloud Load Balancer ..."
+#kubectl delete service wordpress
+#gcloud compute forwarding-rules list
+#kubectl delete pvc wordpress-volumeclaim
+#kubectl delete pvc mysql-volumeclaim
+#gcloud container clusters delete persistent-disk-tutorial
+
+# check auto repair list
+gcloud container operations list
+
+echo -e "\thttps://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip"
+

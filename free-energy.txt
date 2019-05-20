@@ -1,0 +1,316 @@
+#------------------------------------------------------------------------------
+# Rodin Coil
+# Daniel Nunez
+#------------------------------------------------------------------------------
+# https://1stopenergies.com/
+#
+
+# POE Mini: Overunity Measurement using 6 Meters and one Scope!
+# https://www.youtube.com/watch?time_continue=256&v=KJyb9tnlcaw
+
+POE Mini: Overunity Measurement using 6 meters and one scope
+
+
+#------------------------------------------------------------------------------
+# TASK 1   : POE Mini Overunity Measurement using 6 Meters and one Scope
+#------------------------------------------------------------------------------
+https://www.youtube.com/watch?time_continue=256&v=KJyb9tnlcaw
+Android Phone as signal generator, sound frequency, this machine should be
+amplified by the Insignia amplifier it's a regular home stereo amp that goes
+into the coil we'are measuring amperage voltage and the power with analog meter
+then it comes out of the coil and into the LED where we're also measuring
+amperage voltage and power with another analog meter we've just got this pickup
+coil just to show the distanc of wireless electrical connection there so
+start up the sound frequency we're using a frequency of 17 point one kilohertz
+from the speaker we're generating a voltage 21,7 from output speaker plugs on
+the amplifier that's what's feeding into the coil we're looking at
+point seven two point zero seventy four miliaps ( 0.074 mA )
+
+on the output side we're 113.6 V and 0.024 mA so the amerage is lower now that
+could be changed with a capacitor by putting a capacitor across the outputs
+but I wanted to do this without a capacitor so this is just a coil in the raw
+connected to these LEDs
+
+this type of coil could potentially be wired up in a very specific configuration
+make it power itself and that's the ultimate goal we want to have these coils
+self-powering we want to somehow recapture the extra energy that's coming
+out of the output end loop it back around so that may mean storing a bank of
+capacitors so you know we have a bunch of different types of capacitors here
+and we've beem experimenting with that but nonetheless it's an interesting
+concept that needs a bit more analysis not to mention if i go ahead and i
+disconnect those LEDs and i just leave this coil open-ended pulsing it will
+start creating a large amount of ozone and it sprays out directly from the
+center of the coil so not too sure why that happens it's just like this
+arcing that that happens with the intense magnetic field right in the center
+of the coil so we can create technologies that are far more efficient
+
+#------------------------------------------------------------------------------
+# TASK 2a
+#------------------------------------------------------------------------------
+ABHA Coil Rewired!   Daniel Nunez
+https://uawomen.net/id/abha-coil-rewired-y_viP_ZBsk4.html
+https://www.youtube.com/watch?v=y_viP_ZBsk4
+# Counter clockwise vortex - Clockwise vortex - Nested Vortices
+# New design for the ahh bra coil
+running a 555 time that's firing two transistors there and we're operating at
+12 am power 12 volt battery and you see neon is firing on the other output, so
+we're getting a nice amount of light therefore 37 milli amps
+
+#------------------------------------------------------------------------------
+# TASK 2b   ABHA
+#------------------------------------------------------------------------------
+# https://uawomen.net/id/dual-abha-140-overunity-free-energy-identified-Ueiu1Sv2854.html
+# Dual ABHA 140% Overunity!! Free Energy Identified!
+feeding energy from project through a plan that's energizing the plant and then
+it feeds into this LED / NEON. The input energy is a steady 0.87 and that's
+comming from the signal generator (low fr 36 kilohertz) that frequenccy is
+fed into clear ABHA and what's coming out of is 128 volts + 130 volts in LEDs
+connected securely; therere is crystal in center to charge up that crystal
+a little bit. we have the cubeoctahedron here making things exciting.
+
+
+#------------------------------------------------------------------------------
+# TASK 2c   POE Vortex Coild Advanced 2.0 - Resonance
+#------------------------------------------------------------------------------
+https://www.youtube.com/watch?v=r7jUsdWEQ6w
+the capacitor that's being charged with the resonant energy and running neon
+
+
+#------------------------------------------------------------------------------
+# POE Vortex Coil how its made
+#------------------------------------------------------------------------------
+https://uawomen.net/id/poe-vortex-coil-how-its-made-bafvn2JoBpg.html
+https://uawomen.net/likes/abha+coil
+
+#------------------------------------------------------------------------------
+# PEMF's
+#------------------------------------------------------------------------------
+Everything is energy. Energy is always dynamic and , therefore, has a frequency;
+it change by the second or minute. All energy is electromagnetic in nature. All atoms, chemicals and cells produce electromagnetic fields (EMFs). All 70
+trillion cells in the body communicate via electromagnetic frequencies.
+
+PEMFs address impaired chemistry and thus the function of cells - which in
+turn, improves health. PEMs deliver beneficial, health-enhancing EMFs and
+frequencies to the cells
+
+#------------------------------------------------------------------------------
+# Email
+#------------------------------------------------------------------------------
+Hi
+thank you very much,  please we would like to do "POE Mini: Overunity Measurement" at home and have some free energy, maybe store in batery, lights, play with it :-)
+
+please "Winding Direction" not sure which one is the best , could you help, thank you very much
+https://1stopenergies.com/products/poe-vortex-coil-mini-144
+
+sourc: POE Mini: Overunity Measurement using 6 Meters and one Scope
+https://www.youtube.com/watch?time_continue=256&v=KJyb9tnlcaw
+
+
+
+#------------------------------------------------------------------------------
+# Sonic Geometry
+#------------------------------------------------------------------------------
+# Kind of mathematical spatial frequency based language
+# https://www.youtube.com/watch?v=FY74AFQl2qQ
+Pythagorean Tuning
+27 - 54 -108 - 216 -432
+
+
+# Secretspaceprogram
+
+# Anti gravity
+#------------------------------------------------------------------------------
+1. done by Germany
+Viktor Schauberger - aeronautical and marine engineers, water and gravity system
+   repulsine - spin water around the turbine  and it cause anti gravity
+
+2. second type of anti-gravity
+Mercury based turbine turns into gold and creates anti gravity
+they had in the late 1930s - they called bell, Chronos, it chane the
+flow ot the time when you'd fire it up
+
+1952 there was an overflight of ships over the US Capitol
+Hitler was illegitimate son of British royalty, Hitler's face like the face of
+King George
+
+Righard Dolen - spy oinside area 51
+
+# DMT
+#------------------------------------------------------------------------------
+Groundbreaking new scientific research proving that the pineal gland is lined with cells that function just like the rods and cones in the retina of the eye.
+Electrically, the pineal gland is wired into the brain just like the eye, via a “phototransduction cascade.” Some scientists have concluded there may be photons releasing inside the pineal gland that are picked up much like the eye, but they don’t understand how this could happen.
+We do know the pineal gland is filled with a watery fluid that has tiny crystals floating around in it, including calcite and, quite possibly, DMT.
+When DMT is synthesized in a laboratory and chipped out of its container, it emits massive bursts of colored light in a “piezochromatic” effect. This suggests that the crystals in the pineal gland could be expanding and contracting, and releasing visible photons, in a manner not unlike the function of a crystal radio
+
+Pineal gland those little crystals in the water get bound up by minerals
+and they get locked up and stuck and then the less water in your pineal gland
+the less access you have to your astral body and in turn if you get comletely
+calcified you go crazy
+
+Weston Price that indigenous cultures had certain compounds in the food that
+prevented pineal calcification
+
+# Dr. Pete Peterson  -  activator x
+#------------------------------------------------------------------------------
+(Chlorine, fluorine, bromine) is congeal cholesterol into arterial plaque
+# bottom feeder fish - 60% is liver and about 60% is that particular fish
+liver oil which contains a compound called activator X. Get the oil, get it
+cold the waxes and false isomers will solidify you can filter those out and
+the oil left over has very little of no taste to it and the oil you can put on
+sunlight and it won't turn rancid for hundreads of years, one drop eaten
+daily you have no caries whatsoever - it's the best antioxidant known to man
+ far as I know, called it "activator X" - it eliminate most of heart surgery
+- also in leisure moil is  activator x
+- also in fermented rat fish liver oil (fish called also skate fish)
+    - two per day (fermented skate fish oil)
+
+fermented skate liver oil  !!!
+
+Best food is made of hemp oil
+
+# Solar Warden
+#------------------------------------------------------------------------------
+1980 massive extension to space program
+
+# DART Craft
+#------------------------------------------------------------------------------
+used to ferry people to LOC (Lunar Operations Command)
+
+
+# Groups
+#------------------------------------------------------------------------------
+GGLN - global galactic league of nations - they are compromised by Iluminati
+
+# David Wilcock on Draco Reptilians, Saurians
+Royals reptilians - white, 12 to 14 foot
+Iluminaty Family masters, live 14000, 20 of them,chop a head like in higlander
+Trustees
+Operatives large number of then
+13 Iluminaty blood lines
+ - Pinder is the head of the Cabal - pinnacle of the Draco, penas of the dragon
+   (rothschild family )
+
+Henri the 8th and Queen Elizabeth were working with Draco
+
+
+# All Five Cosmic Alliances
+#------------------------------------------------------------------------------
+The Earth Alliance
+Sphere being alliance
+Horus the Egyptian god of the sun was picture as a Bird Headed being as was
+his accomplice Thoth. Isis the Great Cosmic mother and Horus her son of light
+Horus surfing the Cosmos on his ship of Eternity hiw wormhole shaped star Boat
+Taking a Closer Look at Horace's soulder patch we see that in the logo of the
+bluebirds the winged serpent, adopted by Judeo-Christianity as the symbol for
+the seraphim angelic beings of pure light and pure love
+Seraphim are usually portrayed as red winged bidr men bred because they burn
+with the love of the creator or blue angels - Blue bird men angels are the
+watchers of the door or gate
+Within hopi beliefs the eagle Kachina is the messenger spirit between humans
+and the creator. Garuda is a Divine being with the head and wings of an eagle.
+He is said to be the sworm enemy of the naga serpent race and is the steed of
+the god Vishnu.
+- be of service to one another
+- focus on love and forgiveness
+- change humanity for the better
+
+#------------------------------------------------------------------------------
+Bioluminescent plants
+
+# Stone Infused Technology  -  The Mayans
+#------------------------------------------------------------------------------
+ships made completely of stone
+helped comparmentalize and heal from trauma
+Mayan Healing Transformed Gonzalez
+
+# Eisenhower's Quote
+#------------------------------------------------------------------------------
+We called the people in from MJ-12, from Area 51 and S-4, but they told us that
+the government had no jurisdiction over what they were doing
+Eisenhower warnedof MIC in closing speech
+# https://www.youtube.com/watch?v=vfSA2XIHJaQ Full Disclosure of All Five
+Cosmic Alliances
+1993 Kennedy was killed. 1964 "Seven Days in May" - reveals conspiracy or
+from the same director as "The Manchurian Candidate" 1962 - Naxi take over US
+1972-74 - Watergate, second try of alliance
+1981 - March 30, Cabal wanted to shoot Reagan, Reagan was actor
+1982 - Reagan spills the beans at E.T. Screening
+1985 - The Seeker, massive new planet in our solar system
+1987 - The Iran-Contra Scandal
+1990-91   - All Nukes Melted Down (Jacob, Peterson ...)
+1995  - Another during Clinton Administration, Back-Story is the Whitewater
+  Investigation,Clintons were running cocain bussiness -"American maded" movie
+  Vince Foster going to tesitfy against Hilary, suddenly kills himself
+1996-2006 - Sherman Skolnick, wanted to tell the true
+1995 April 17   - cabal wanted to give weapons to Red Chinese
+Admiral Jeremy Boorda was killed by cabal
+Clark Fiester - he was fignting the cabal and was killed in plane crash
+Glenn Profitt ||  - killed
+Hubert Fisher  - killed     -  April 19 1995, Oklahoma city bombing
+   there were documents agains Cabal
+9/11 Pentagon  - smashed directly into the office of the Chief of Naval
+  Operations Intelligence Plot (Center of Alliance)
+Henry Deacon 2007  - Project Cabelot, working on the base of Mars
+  260000 people on Mars, only 10000 from earth, 400 ETs
+Emery Smith 2009
+Pete Peterson 2009
+Jacob: 2009  working for Rothshild, basis in all universe
+Corey Goode 2009  - the secret space program (2014) , info about
+  Reptilian-Human Race Called the Draco  (Jupiter Ascending ). Draco has
+  subservient race known as Reptoids, Nazi - The Dark Fleet
+
+The Five Factions
+  - Solar Warden
+  - Interplanetary Corporate Conglomerate
+  - Gloval Galactic League of Nations
+  - Military
+  - The Dark Fleet
+  - Also small "scout" groups
+
+Massive manafacturing Plants on Mars
+
+The SSP Alliance  - Feb. 27, 2015 Blue Avians ask for Corey Goode by name
+   - all technology to people
+
+The Sphere Being Alliance - June 2nd, 1998, July 31st, 2002
+  Golden Triangle-Head Beings
+
+The Inner Earth Alliance  - Billy Meier and "Semjase" comming from our future
+   Ka'aree  - Inner Earth Virgin Priestess, OVer 130 years old, meeting in
+   person and also in the "Construct" - from matrix, white space
+
+The Military - Industrial Complex SSP  - low SSP, shooting down Draco's sheeps
+
+The Olmecs - Mika (first contacted by Blue Avians on his planet) the same plot
+  done by Dracos like on our planet
+
+May 10th: Q Teases about a "Sky Event"
+
+# Underground
+#------------------------------------------------------------------------------
+D.U.M.B  - Underground Transport System
+  MagLev Train Network
+  Stations Underneath Major Cities & D.U.M.B's
+
+Crystal Cave Trip  - the crystals are living beings, when touched the crystals
+  glow; Kids were used like USB drives and the nBlank Slated
+
+Vesica Pisces over Doorway  - two circles in one bigger oval
+
+Anshar - massive cavern the size of Texas, structures Buil into Pillars
+   - food: they crushed Rock & Crystal Hydroponic System, they recycle
+     everything, high yield & high vibratory food
+   - Artificial Eco-System - animals preserved from ancient history
+   - giant Obelist with a Large Plasma Ball above it
+   - Hand Holding a Crystal Ball, polished white marble room, complete access
+     to human internet and literature
+   - Elixir of Isis, Palm to Palm, Flashes of her life over 130 years
+     profoundly emotional experience, about crystals - after raw diet
+   - Groups of Anshar Reaching out telepathically to humans
+     telepathic teleconferencing
+   - Antarctica Trip - transparent walls, went out of phase, intuitive display
+     some kind of bus
+
+
+
+
