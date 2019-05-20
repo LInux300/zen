@@ -1,0 +1,11 @@
+Using PGP with ProtonMail
+
+By far the easiest way to use PGP with someone else is for both you and your contact to create a ProtonMail email address. It’s free and takes less than a minute — you can sign up here.
+
+If that is not an option for the contacts with whom you are communicating, you can use our Encrypt for Outside Users feature or, for more technically proficient contacts, ProtonMail’s external PGP encryption.
+
+PGP works by generating a key pair: a public key and a private key. The public key can be distributed to anyone who wants to send you a message and is used to encrypt a message that can only be decrypted by you. The private key is kept secret and is used for decryption.
+
+End to end Encrypted Email Graphic showing Alice's public and private key in the browserIn addition to encryption, PGP can also create digital signatures. Signatures, created with your private key, are proof that you have written the message you have signed. Using your public keys, other users can verify these signatures.
+
+https://protonmail.com/support/knowledge-base/how-to-use-pgp/
